@@ -6,9 +6,6 @@
 		{
 			"path": "../boilerplate"
 		},
-		{
-			"path": "../picorv32"
-		}
 	],
 	"settings": {}
 }

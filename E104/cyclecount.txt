@@ -1,8 +1,0 @@
-Cutter reverse engineering framework
-------------------------------------
-    30 instructions
-
-Vivado simulation
------------------
-    (3270 ns - 1830 ns)/10ns = 144 cycles of 10 ns
-    30 instructions

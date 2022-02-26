@@ -1,7 +1,0 @@
-# compile vhdl design source files
-vhdl xil_defaultlib  \
-"../../../../picorv_mem_model.vhd" \
-"../../../../picorv_testbench.vhd" \
-
-# Do not sort compile order
-nosort
