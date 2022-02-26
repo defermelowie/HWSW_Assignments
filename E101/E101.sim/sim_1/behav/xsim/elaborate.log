@@ -1,0 +1,23 @@
+Vivado Simulator v2021.1
+Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
+Running: /home/lowie/Programs/Xilinx/Vivado/2021.1/bin/unwrapped/lnx64.o/xelab -wto fecca39794b9437aaf5a70c2c22e4665 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot picorv_testbench_behav xil_defaultlib.picorv_testbench xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package synopsys.attributes
+Compiling package ieee.std_logic_misc
+Compiling package ieee.std_logic_textio
+Compiling package vl.vl_types
+Compiling module xil_defaultlib.glbl
+Compiling module xil_defaultlib.picorv32(ENABLE_COUNTERS=1'b1,EN...
+Compiling architecture behavioural of entity xil_defaultlib.picorv_mem_model [\picorv_mem_model(fname_hex="/ho...]
+Compiling architecture behavioural of entity xil_defaultlib.picorv_testbench
+Built simulation snapshot picorv_testbench_behav

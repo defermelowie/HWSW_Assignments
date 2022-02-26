@@ -1,6 +1,6 @@
 # Makefile
 
-RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX = /home/lowie/Documents/IIW/S8/HW_SW_Codesign/riscv32-unknown-elf
+RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX = /home/lowie/Programs/riscv-gnu-toolchain
 TOOLCHAIN_PREFIX = $(RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX)/bin/riscv32-unknown-elf-
 
 PYTHON = /usr/bin/python3
@@ -9,7 +9,7 @@ PYTHON = /usr/bin/python3
 # GCC_WARNS += -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -pedantic # -Wconversion
 GCC_ARGS = -mcmodel=medlow
 
-COMPRESSED_ISA = d
+COMPRESSED_ISA = 
 
 CFLAGS  = -Wall -Os --std=c99 -ffreestanding -nostdlib
 LDFLAGS = --std=gnu99 -Wl,-Bstatic,-T,firmware.lds,-Map,$(TARGETDIR)/firmware.map,--strip-debug -lgcc
@@ -57,7 +57,7 @@ $(BUILDDIR)/%.o: $(SOURCEDIR)/%.c
 
 # MAIN STRUCTURE
 $(BUILDDIR)/start.o: $(SOURCEDIR)/start.S
-	$(TOOLCHAIN_PREFIX)gcc -c -march=$(ARCHITECTURE) $(CFLAGS)  $(GCC_WARNS) -o $@ $<
+	$(TOOLCHAIN_PREFIX)gcc -c -march=$(ARCHITECTURE) $(CFLAGS) $(GCC_WARNS) -o $@ $<
 
 
 ################################################################################

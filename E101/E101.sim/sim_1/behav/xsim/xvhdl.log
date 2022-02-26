@@ -1,0 +1,4 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E101/picorv_mem_model.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'picorv_mem_model'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E101/picorv_testbench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'picorv_testbench'

@@ -1,0 +1,8 @@
+0.7
+2020.2
+Jun 10 2021
+19:45:28
+/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E101/E101.sim/sim_1/behav/xsim/glbl.v,1623370582,verilog,,,,glbl,,,,,,,,
+/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E101/picorv_mem_model.vhd,1645641932,vhdl,,,,picorv_mem_model,,,,,,,,
+/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E101/picorv_testbench.vhd,1645641987,vhdl,,,,picorv_testbench,,,,,,,,
+/home/lowie/Documents/IIW/S8/HW_SW_Codesign/picorv32/picorv32.v,1644834723,verilog,,,,picorv32;picorv32_axi;picorv32_axi_adapter;picorv32_pcpi_div;picorv32_pcpi_fast_mul;picorv32_pcpi_mul;picorv32_regs;picorv32_wb,,,,,,,,

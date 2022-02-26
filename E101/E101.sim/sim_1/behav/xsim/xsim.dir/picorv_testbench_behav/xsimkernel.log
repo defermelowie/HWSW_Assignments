@@ -1,0 +1,7 @@
+Running: xsim.dir/picorv_testbench_behav/xsimk -simmode gui -wdb picorv_testbench_behav.wdb -simrunnum 0 -socket 51855
+Design successfully loaded
+Design Loading Memory Usage: 46240 KB (Peak: 46240 KB)
+Design Loading CPU Usage: 30 ms
+Simulation completed
+Simulation Memory Usage: 127488 KB (Peak: 185508 KB)
+Simulation CPU Usage: 34940 ms
