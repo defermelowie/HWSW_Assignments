@@ -26,8 +26,8 @@ architecture Behavioural of picorv_testbench is
     component picorv_mem_model is
         generic (
             G_DATA_WIDTH : integer := 32;
-            FNAME_HEX : string := "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E104/target/firmware.hex";
-            FNAME_OUT : string := "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E104/output/out.txt"
+            FNAME_HEX : string := "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E201/sw/target/firmware.hex";
+            FNAME_OUT : string := "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E201/sw/output/out.txt"
         );
         port (
             resetn : IN STD_LOGIC;
@@ -164,8 +164,8 @@ begin
             COMPRESSED_ISA => '0',
             CATCH_MISALIGN => '1',
             CATCH_ILLINSN => '1',
-            ENABLE_PCPI => '0',
-            ENABLE_MUL => '0',
+            ENABLE_PCPI => '1',
+            ENABLE_MUL => '1',
             ENABLE_FAST_MUL => '0',
             ENABLE_DIV => '0',
             ENABLE_IRQ => '0',
@@ -215,8 +215,8 @@ begin
     picorv_mem_model_inst00: component picorv_mem_model 
         generic map (
             G_DATA_WIDTH => G_DATA_WIDTH, 
-            FNAME_HEX => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E104/target/firmware.hex",
-            FNAME_OUT => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E104/target/output.dat"
+            FNAME_HEX => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E201/sw/target/firmware.hex",
+            FNAME_OUT => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/E201/sw/output/out.txt"
         ) port map (
             resetn => resetn_i,
             clock => clock_i,
