@@ -1,0 +1,10 @@
+{
+    "date-format": "%d %B %Y",
+    "keywords": {
+        "course-name": "Hardware software codesign",
+        "project-description": "Course assignments",
+        "organization": "UHasselt/KULeuven - FIIW",
+        "author": "Lowie Deferme",
+    },
+    "shebang-by-default": true
+}
