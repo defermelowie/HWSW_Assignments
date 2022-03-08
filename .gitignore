@@ -93,11 +93,11 @@ dkms.conf
 ###############################################################
 
 # build dir
-**/build/*
+**/build/
 
 # target dir
 **/target/*
 !**/target/firmware.hex
 
-# toolchain
-tools/riscv32-unknown-elf/*
+# vivado project
+**/vivado_project/

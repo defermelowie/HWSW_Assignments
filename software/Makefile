@@ -1,7 +1,7 @@
 # Makefile
 
 RISCV_GNU_TOOLCHAIN_GIT_REVISION = 411d134
-RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX = /home/lowie/Documents/IIW/S8/HW_SW_Codesign/riscv32-unknown-elf
+RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX = /home/lowie/Programs/riscv-gnu-toolchain
 TOOLCHAIN_PREFIX = $(RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX)/bin/riscv32-unknown-elf-
 
 PYTHON = /usr/bin/python3
@@ -10,15 +10,16 @@ PYTHON = /usr/bin/python3
 # GCC_WARNS += -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -pedantic # -Wconversion
 GCC_ARGS = -mcmodel=medlow
 
-COMPRESSED_ISA = d
+COMPRESSED_ISA = 
 
-CFLAGS  = -Wall -Os --std=c99 -ffreestanding -nostdlib
-LDFLAGS = --std=gnu99 -Wl,-Bstatic,-T,firmware.lds,-Map,firmware.map,--strip-debug -lgcc
+CFLAGS  = -Wall -Os -o0 --std=c99 -ffreestanding -nostdlib
+LDFLAGS = --std=gnu99 -Wl,-Bstatic,-T,firmware.lds,-Map,$(TARGETDIR)/firmware.map,--strip-debug -lgcc
 ARCHITECTURE = rv32i$(subst C,c,$(COMPRESSED_ISA))
 
 BUILDDIR = build
 SOURCEDIR = src
-TOOLS = tools
+TOOLSDIR = /home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/tools
+TARGETDIR = target
 
 SOURCES = $(wildcard $(SOURCEDIR)/*.c)
 SOURCES_A = $(wildcard $(SOURCEDIR)/*.S)
@@ -39,17 +40,17 @@ all: firmware.hex firmware.objdump
 ################################################################################
 
 %.objdump: %.elf
-	$(TOOLCHAIN_PREFIX)objdump -D $< > $@
+	$(TOOLCHAIN_PREFIX)objdump -D $(TARGETDIR)/$< > $(TARGETDIR)/$@
 
 %.bin: %.elf
-	$(TOOLCHAIN_PREFIX)objcopy -O binary $< $@
+	$(TOOLCHAIN_PREFIX)objcopy -O binary $(TARGETDIR)/$< $(TARGETDIR)/$@
 
 %.hex: %.bin
-	$(PYTHON) $(TOOLS)/makehex.py $^ 8196 > $@
+	$(PYTHON) $(TOOLSDIR)/makehex.py $(TARGETDIR)/$^ 8196 > $(TARGETDIR)/$@
 
 # LINKING ######################################################################
 $(BINARY): $(OBJECTS) $(OBJECTS_A)
-	$(TOOLCHAIN_PREFIX)gcc -ffreestanding -nostdlib -o $@ $^ $(GCC_ARGS) $(LDFLAGS)
+	$(TOOLCHAIN_PREFIX)gcc -ffreestanding -nostdlib -o $(TARGETDIR)/$@ $^ $(GCC_ARGS) $(LDFLAGS)
 
 # COMPILING ####################################################################
 $(BUILDDIR)/%.o: $(SOURCEDIR)/%.c
@@ -69,5 +70,5 @@ setup:
 	$(MKDIR) -p $(BUILDDIR)
 
 clean:
-	$(RM) firmware*.elf firmware*.bin firmware*.hex firmware*.map firmware*.objdump
+	$(RM) $(TARGETDIR)/firmware*.elf $(TARGETDIR)/firmware*.bin $(TARGETDIR)/firmware*.hex $(TARGETDIR)/firmware*.map $(TARGETDIR)/firmware*.objdump
 	$(RM) $(BINARY) $(OBJECTS) $(OBJECTS_A)

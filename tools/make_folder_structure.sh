@@ -5,6 +5,6 @@ mkdir src
 mkdir target
 mkdir build
 cp $BOILERPLATE_DIR/Makefile Makefile
-cp $BOILERPLATE_DIR/firmware.lds firmware.ids
+cp $BOILERPLATE_DIR/firmware.lds firmware.lds
 cp $BOILERPLATE_DIR/src/firmware.c src/firmware.c
 cp $BOILERPLATE_DIR/src/start.S src/start.S

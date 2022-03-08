@@ -59,8 +59,8 @@ architecture Behavioural of picorv_testbench is
             COMPRESSED_ISA : STD_LOGIC := '0';
             CATCH_MISALIGN : STD_LOGIC := '1';
             CATCH_ILLINSN : STD_LOGIC := '1';
-            ENABLE_PCPI : STD_LOGIC := '0';
-            ENABLE_MUL : STD_LOGIC := '0';
+            ENABLE_PCPI : STD_LOGIC := '1';
+            ENABLE_MUL : STD_LOGIC := '1';
             ENABLE_FAST_MUL : STD_LOGIC := '0';
             ENABLE_DIV : STD_LOGIC := '0';
             ENABLE_IRQ : STD_LOGIC := '0';
@@ -215,8 +215,8 @@ begin
     picorv_mem_model_inst00: component picorv_mem_model 
         generic map (
             G_DATA_WIDTH => G_DATA_WIDTH, 
-            FNAME_HEX => "/home/jvliegen/vc/github/KULeuven-Diepenbeek/hwswcodedign-course/src/firmware/example1/firmware.hex",
-            FNAME_OUT => "/home/jvliegen/vc/github/KULeuven-Diepenbeek/hwswcodedign-course/src/firmware/example1/simulation_output.dat"
+            FNAME_HEX => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/software/target/firmware.hex",
+            FNAME_OUT => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/software/target/simulation_output.dat"
         ) port map (
             resetn => resetn_i,
             clock => clock_i,
