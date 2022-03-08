@@ -23,6 +23,21 @@ end entity picorv_testbench;
 
 architecture Behavioural of picorv_testbench is
 
+    component pcpi_hwswcd_hd is
+        port (
+            resetn : IN STD_LOGIC;
+            clk : IN STD_LOGIC;
+            pcpi_valid : IN STD_LOGIC;
+            pcpi_insn : IN STD_LOGIC_VECTOR(32-1 downto 0);
+            pcpi_rs1 : IN STD_LOGIC_VECTOR(32-1 downto 0);
+            pcpi_rs2 : IN STD_LOGIC_VECTOR(32-1 downto 0);
+            pcpi_wr : OUT STD_LOGIC;
+            pcpi_rd : OUT STD_LOGIC_VECTOR(32-1 downto 0);
+            pcpi_wait : OUT STD_LOGIC;
+            pcpi_ready : OUT STD_LOGIC
+        );
+    end component;
+
     component picorv_mem_model is
         generic (
             G_DATA_WIDTH : integer := 32;
@@ -59,8 +74,8 @@ architecture Behavioural of picorv_testbench is
             COMPRESSED_ISA : STD_LOGIC := '0';
             CATCH_MISALIGN : STD_LOGIC := '1';
             CATCH_ILLINSN : STD_LOGIC := '1';
-            ENABLE_PCPI : STD_LOGIC := '1';
-            ENABLE_MUL : STD_LOGIC := '1';
+            ENABLE_PCPI : STD_LOGIC := '0';
+            ENABLE_MUL : STD_LOGIC := '0';
             ENABLE_FAST_MUL : STD_LOGIC := '0';
             ENABLE_DIV : STD_LOGIC := '0';
             ENABLE_IRQ : STD_LOGIC := '0';
@@ -117,6 +132,15 @@ architecture Behavioural of picorv_testbench is
     signal mem_ready_i : STD_LOGIC;
     signal mem_rdata_i : STD_LOGIC_VECTOR(G_DATA_WIDTH-1 downto 0);
 
+    signal pcpi_valid : STD_LOGIC;
+    signal pcpi_insn : STD_LOGIC_VECTOR(G_DATA_WIDTH-1 downto 0);
+    signal pcpi_rs1 : STD_LOGIC_VECTOR(G_DATA_WIDTH-1 downto 0);
+    signal pcpi_rs2 : STD_LOGIC_VECTOR(G_DATA_WIDTH-1 downto 0);
+    signal pcpi_wr : STD_LOGIC;
+    signal pcpi_rd : STD_LOGIC_VECTOR(G_DATA_WIDTH-1 downto 0);
+    signal pcpi_wait : STD_LOGIC;
+    signal pcpi_ready : STD_LOGIC;
+
     constant C_zeroes : STD_LOGIC_VECTOR(G_DATA_WIDTH-1 downto 0) := (others => '0');
     constant clock_period : time := 10 ns;
 
@@ -148,6 +172,24 @@ begin
     end process;
 
     -------------------------------------------------------------------------------
+    -- pcpi - coprocessor
+    -------------------------------------------------------------------------------
+
+    hammingd_inst00: component pcpi_hwswcd_hd
+        port map(
+            resetn => resetn_i,
+            clk => clock_i,
+            pcpi_valid => pcpi_valid,
+            pcpi_insn => pcpi_insn,
+            pcpi_rs1 => pcpi_rs1,
+            pcpi_rs2 => pcpi_rs2,
+            pcpi_wr => pcpi_wr,
+            pcpi_rd => pcpi_rd,
+            pcpi_wait => pcpi_wait,
+            pcpi_ready => pcpi_ready
+        );
+
+    -------------------------------------------------------------------------------
     -- RISC-V - PicoRV32
     -------------------------------------------------------------------------------
     picorv32_inst00: component picorv32
@@ -164,7 +206,7 @@ begin
             COMPRESSED_ISA => '0',
             CATCH_MISALIGN => '1',
             CATCH_ILLINSN => '1',
-            ENABLE_PCPI => '0',
+            ENABLE_PCPI => '1',
             ENABLE_MUL => '0',
             ENABLE_FAST_MUL => '0',
             ENABLE_DIV => '0',
@@ -194,14 +236,14 @@ begin
             mem_la_addr => open, 
             mem_la_wdata => open, 
             mem_la_wstrb => open, 
-            pcpi_valid => open, 
-            pcpi_insn => open, 
-            pcpi_rs1 => open, 
-            pcpi_rs2 => open, 
-            pcpi_wr => C_zeroes(0),
-            pcpi_rd => C_zeroes,
-            pcpi_wait => C_zeroes(0),
-            pcpi_ready => C_zeroes(0),
+            pcpi_valid => pcpi_valid, 
+            pcpi_insn => pcpi_insn, 
+            pcpi_rs1 => pcpi_rs1, 
+            pcpi_rs2 => pcpi_rs2, 
+            pcpi_wr => pcpi_wr,
+            pcpi_rd => pcpi_rd,
+            pcpi_wait => pcpi_wait,
+            pcpi_ready => pcpi_ready,
             irq => C_zeroes,
             trap => open,
             eoi => open,

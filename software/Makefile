@@ -10,7 +10,7 @@ PYTHON = /usr/bin/python3
 # GCC_WARNS += -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes -pedantic # -Wconversion
 GCC_ARGS = -mcmodel=medlow
 
-COMPRESSED_ISA = 
+COMPRESSED_ISA = m
 
 CFLAGS  = -Wall -Os -o0 --std=c99 -ffreestanding -nostdlib
 LDFLAGS = --std=gnu99 -Wl,-Bstatic,-T,firmware.lds,-Map,$(TARGETDIR)/firmware.map,--strip-debug -lgcc
