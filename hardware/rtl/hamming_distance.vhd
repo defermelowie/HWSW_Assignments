@@ -69,6 +69,9 @@ begin
     -------------------------------------------------------------------------------
     -- COMBINATORIAL
     -------------------------------------------------------------------------------
+    
+    -- func7    rs2	 rs1   f3  rd    opc
+    -- 0000001 01111 01010 100 01010 0110011 --> DIV instr voldoed ook aan mul
     isArith <= '1' when pcpi_insn_i(6 downto 0) = "0110011" else '0';
     isMul <= '1' when pcpi_insn_i(31 downto 25) = "0000001" else '0';
     distance_ce <= (operand_x(0) xor operand_y(0)) and calculating;
