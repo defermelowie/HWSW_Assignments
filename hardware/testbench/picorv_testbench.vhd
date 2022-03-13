@@ -23,7 +23,7 @@ end entity picorv_testbench;
 
 architecture Behavioural of picorv_testbench is
 
-    component pcpi_hwswcd_hd is
+    component pcpi_avg is
         port (
             resetn : IN STD_LOGIC;
             clk : IN STD_LOGIC;
@@ -175,7 +175,7 @@ begin
     -- pcpi - coprocessor
     -------------------------------------------------------------------------------
 
-    hammingd_inst00: component pcpi_hwswcd_hd
+    avg_inst00: component pcpi_avg
         port map(
             resetn => resetn_i,
             clk => clock_i,
