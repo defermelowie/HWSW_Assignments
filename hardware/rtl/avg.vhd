@@ -43,7 +43,7 @@ architecture behavioural of pcpi_avg is
     signal pcpi_ready_i : STD_LOGIC;
 
     -- fsm states
-    type State_type IS (R, A, D, W, F);  -- define states (Ready, Add, Divide, Write data, Finished)
+    type State_type IS (R, W, F);  -- define states (Ready, Write data, Finished)
 
     -- signals
 	signal fsm_state : State_type;              -- fsm state signal
@@ -79,8 +79,9 @@ begin
         pcpi_insn_i(31 downto 25) = "0000001"       -- func7
     ) else '0';
     
-    -- result is average
-    pcpi_rd_i <= avg;
+    -- signals for calculation
+    sum <= ('0' & pcpi_rs1_i) + ('0' & pcpi_rs2_i); -- calculate sum
+    avg <= sum(32 downto 1); -- Shift right -> /2
 
     -----------------------------------------------------------
     -- sequential
@@ -96,44 +97,25 @@ begin
                     pcpi_wait_i <= '0';
                     pcpi_wr_i <= '0';
                     pcpi_ready_i <= '0';
-                    sum <= (others => '0');
-                    avg <= (others => '0');
-                    -- next state if valid instruction and pcpi valid
+                    pcpi_rd_i <= (others => '0');
+                    -- next state is write data if valid instruction and pcpi valid
                     if is_rem_inst = '1' and pcpi_valid_i = '1' then
-                        fsm_state <= A;
+                        fsm_state <= W;
                     else
                         fsm_state <= R;
                     end if;
-                when A =>
-                    pcpi_wait_i <= '1';
-                    pcpi_wr_i <= '0';
-                    pcpi_ready_i <= '0';
-                    sum <= ('0' & pcpi_rs1_i) + ('0' & pcpi_rs2_i); -- calculate sum
-                    avg <= avg;
-                    -- next state is divide
-                    fsm_state <= D;
-                when D =>
-                    pcpi_wait_i <= '1';
-                    pcpi_wr_i <= '0';
-                    pcpi_ready_i <= '0';
-                    sum <= sum;
-                    avg <= sum(32 downto 1); -- Shift right -> /2
-                    -- next state is write data
-                    fsm_state <= W;
                 when W =>
                     pcpi_wait_i <= '0';
                     pcpi_wr_i <= '1';
                     pcpi_ready_i <= '1';
-                    sum <= sum;
-                    avg <= avg;
+                    pcpi_rd_i <= avg;
                     -- next state is finished
                     fsm_state <= F;
                 when F =>
                     pcpi_wait_i <= '0';
                     pcpi_wr_i <= '0';
                     pcpi_ready_i <= '0';
-                    sum <= sum;
-                    avg <= avg;
+                    pcpi_rd_i <= (others => '0');
                     -- next state is ready
                     fsm_state <= R;
             end case;
