@@ -42,11 +42,14 @@ architecture behavioural of pcpi_avg is
     signal pcpi_wait_i : STD_LOGIC;
     signal pcpi_ready_i : STD_LOGIC;
 
+    -- fsm states
+    type State_type IS (R, A, D, W, F);  -- define states (Ready, Add, Divide, Write data, Finished)
+
     -- signals
-    signal avg : STD_LOGIC_VECTOR(31 downto 0);
-    signal sum: STD_LOGIC_VECTOR(32 downto 0);
-    signal calculating, calculating_set, calculating_reset, finished: STD_LOGIC;
-    signal is_rem_inst: STD_LOGIC;
+	signal fsm_state : State_type;              -- fsm state signal
+    signal avg : STD_LOGIC_VECTOR(31 downto 0); -- average
+    signal sum: STD_LOGIC_VECTOR(32 downto 0);  -- sum
+    signal is_rem_inst: STD_LOGIC;              -- is remainder instruction signal
 
 begin
 
@@ -75,37 +78,66 @@ begin
         pcpi_insn_i(14 downto 12) = "110" and       -- func3
         pcpi_insn_i(31 downto 25) = "0000001"       -- func7
     ) else '0';
-
-    pcpi_wait_i <= calculating;
-    pcpi_wr_i <= finished;
+    
+    -- result is average
     pcpi_rd_i <= avg;
-    pcpi_ready_i <= finished;
-
 
     -----------------------------------------------------------
     -- sequential
     -----------------------------------------------------------
 
-    proc : process( resetn_i, clock_i )
+    proc: process(resetn_i, clock_i)
     begin
         if resetn_i = '0' then
-            sum <= (others => '0');
-            avg <= (others => '0');
-            calculating <= '0';
-            finished <= '0';
+            fsm_state <= R;
         elsif rising_edge(clock_i) then
-            if is_rem_inst = '1' and pcpi_valid_i = '1' then
-                finished <= '0';
-                calculating <= '1';
-                sum <= ('0' & pcpi_rs1_i) + ('0' & pcpi_rs2_i);
-                avg <= sum(32 downto 1); -- Shift right -> /2
-                calculating <= '0';
-                finished <= '1';
-            else
-                finished <= '0';
-                calculating <= '0';
-            end if;
+            case fsm_state is
+                when R =>
+                    pcpi_wait_i <= '0';
+                    pcpi_wr_i <= '0';
+                    pcpi_ready_i <= '0';
+                    sum <= (others => '0');
+                    avg <= (others => '0');
+                    -- next state if valid instruction and pcpi valid
+                    if is_rem_inst = '1' and pcpi_valid_i = '1' then
+                        fsm_state <= A;
+                    else
+                        fsm_state <= R;
+                    end if;
+                when A =>
+                    pcpi_wait_i <= '1';
+                    pcpi_wr_i <= '0';
+                    pcpi_ready_i <= '0';
+                    sum <= ('0' & pcpi_rs1_i) + ('0' & pcpi_rs2_i); -- calculate sum
+                    avg <= avg;
+                    -- next state is divide
+                    fsm_state <= D;
+                when D =>
+                    pcpi_wait_i <= '1';
+                    pcpi_wr_i <= '0';
+                    pcpi_ready_i <= '0';
+                    sum <= sum;
+                    avg <= sum(32 downto 1); -- Shift right -> /2
+                    -- next state is write data
+                    fsm_state <= W;
+                when W =>
+                    pcpi_wait_i <= '0';
+                    pcpi_wr_i <= '1';
+                    pcpi_ready_i <= '1';
+                    sum <= sum;
+                    avg <= avg;
+                    -- next state is finished
+                    fsm_state <= F;
+                when F =>
+                    pcpi_wait_i <= '0';
+                    pcpi_wr_i <= '0';
+                    pcpi_ready_i <= '0';
+                    sum <= sum;
+                    avg <= avg;
+                    -- next state is ready
+                    fsm_state <= R;
+            end case;
         end if;
-    end process ; -- avg
+    end process proc;
 
 end behavioural ; -- behavioural
