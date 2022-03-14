@@ -63,7 +63,7 @@ $(BUILDDIR)/start.o: $(SOURCEDIR)/start.S
 
 ################################################################################
 
-sizes: firmware.elf
+sizes: $(TARGETDIR)/firmware.elf
 	$(TOOLCHAIN_PREFIX)size $^
 
 setup:

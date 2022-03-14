@@ -1,5 +1,7 @@
   .section .init
   .global main
+  .global hard_mul
+  .global esns_nop
 
 start:
   /* zero-initialize all registers */
@@ -44,3 +46,11 @@ start:
 
   /* break - trap */
   ebreak
+
+esns_nop:
+  ADDI x0, x0, 0
+  ret
+
+hard_mul:
+	mul a0, a0, a1
+	ret

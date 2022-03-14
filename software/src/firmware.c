@@ -1,9 +1,17 @@
 #include "print.h"
+#include "counter.h"
 
 void main(void)
 {
-	volatile int i = 6;
-	volatile int j = 18;
-	int z = i % j; // Use remainder instruction for average calculation
-	print_hex(z, 2);
+
+	unsigned int counter_value;
+	volatile unsigned char temp;
+
+	print_str("count: ");
+	counter_start();
+	for (temp = 0; temp < 10; temp++)
+		;
+	counter_stop();
+	counter_value = counter_get_value();
+	print_hex(counter_value, 2);
 }
