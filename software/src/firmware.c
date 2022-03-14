@@ -13,5 +13,5 @@ void main(void)
 		;
 	counter_stop();
 	counter_value = counter_get_value();
-	print_hex(counter_value, 2);
+	print_hex(counter_value, 4);
 }
