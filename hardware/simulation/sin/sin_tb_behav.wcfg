@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="120.270 ns"></ZoomStartTime>
-      <ZoomEndTime time="570.055 ns"></ZoomEndTime>
-      <Cursor1Time time="291.195 ns"></Cursor1Time>
+      <ZoomStartTime time="31.250 ns"></ZoomStartTime>
+      <ZoomEndTime time="576.212 ns"></ZoomEndTime>
+      <Cursor1Time time="131.032 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="185"></NameColumnWidth>
-      <ValueColumnWidth column_width="136"></ValueColumnWidth>
+      <ValueColumnWidth column_width="132"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="7" />
+   <WVObjectSize size="4" />
    <wvobject type="logic" fp_name="/sin_tb/clock">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -33,23 +33,9 @@
       <obj_property name="ObjectShortName">alpha_i[9:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/sin_tb/sin_inst00/alpha_i_rescaled">
-      <obj_property name="ElementShortName">alpha_i_rescaled[9:0]</obj_property>
-      <obj_property name="ObjectShortName">alpha_i_rescaled[9:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/sin_tb/sin_inst00/rom_a_addr">
-      <obj_property name="ElementShortName">rom_a_addr[7:0]</obj_property>
-      <obj_property name="ObjectShortName">rom_a_addr[7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/sin_tb/sin_inst00/is_result_negative">
-      <obj_property name="ElementShortName">is_result_negative</obj_property>
-      <obj_property name="ObjectShortName">is_result_negative</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/sin_tb/sin_inst00/sin">
-      <obj_property name="ElementShortName">sin[31:0]</obj_property>
-      <obj_property name="ObjectShortName">sin[31:0]</obj_property>
+   <wvobject type="array" fp_name="/sin_tb/sine">
+      <obj_property name="ElementShortName">sine[31:0]</obj_property>
+      <obj_property name="ObjectShortName">sine[31:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

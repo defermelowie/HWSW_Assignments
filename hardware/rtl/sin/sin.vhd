@@ -12,18 +12,18 @@ library IEEE;
     use IEEE.STD_LOGIC_1164.ALL;
     use IEEE.std_logic_unsigned.all;
     use IEEE.NUMERIC_STD.ALL;
-    use IEEE.NUMERIC_STD_UNSIGNED.all;
+--    use IEEE.NUMERIC_STD_UNSIGNED.all;
 
 entity sin is
     generic (
         ALPHA_LEN : integer := 10;
-        SIN_LEN : integer := 20
+        SIN_LEN : integer := 32
     );
     port (
         clock : std_logic;
         reset : STD_LOGIC;
         alpha : IN STD_ULOGIC_VECTOR(ALPHA_LEN-1 downto 0);
-        sin : OUT std_logic_vector(SIN_LEN-1 downto 0)
+        sine : OUT std_logic_vector(SIN_LEN-1 downto 0)
     );
 end entity sin;
 
@@ -60,13 +60,13 @@ begin
     -------------------------------------------------------------------------------
 
     alpha_i <= alpha;
-    sin <= sin_i;
+    sine <= sin_i;
 
     -------------------------------------------------------------------------------
     -- COMBINATORIAL
     -------------------------------------------------------------------------------
     is_result_negative <= '0' when alpha_i < degrees_180 else '1';
-    alpha_i_rescaled <= alpha_i - degrees_180;
+    alpha_i_rescaled <= std_ulogic_vector(unsigned(alpha_i) - unsigned(degrees_180));
     
     rom_a_enable <= '1';
     rom_a_addr <= std_logic_vector(alpha_i(7 downto 0)) when is_result_negative = '0' else std_logic_vector(alpha_i_rescaled(7 downto 0));    

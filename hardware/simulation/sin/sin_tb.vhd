@@ -31,7 +31,7 @@ architecture behavioural of sin_tb is
             clock : std_logic;
             reset : STD_LOGIC;
             alpha : IN STD_ULOGIC_VECTOR(ALPHA_LEN-1 downto 0);
-            sin : OUT std_logic_vector(SIN_LEN-1 downto 0)
+            sine : OUT std_logic_vector(SIN_LEN-1 downto 0)
         );
     end component;
     
@@ -112,7 +112,7 @@ begin
             clock => clock,
             reset => reset_i,
             alpha => alpha_i,
-            sin => sine
+            sine => sine
         );
 
 end behavioural;

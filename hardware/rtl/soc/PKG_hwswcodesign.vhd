@@ -119,6 +119,27 @@ package PKG_hwswcodesign is
         );
     end component;
 
+    component APB_sin is
+        generic (
+            G_BASE_ADDRESS : STD_LOGIC_VECTOR(32-1 downto 0) := x"00000000";
+            G_HIGH_ADDRESS : STD_LOGIC_VECTOR(32-1 downto 0) := x"FFFFFFFF"
+        );
+        port (
+            PCLK : IN STD_LOGIC;
+            PRESETn : IN STD_LOGIC;
+            PADDR : IN STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
+            PPROT : IN STD_LOGIC_VECTOR(C_PROT_WIDTH-1 downto 0);
+            PSELx : IN STD_LOGIC;
+            PENABLE : IN STD_LOGIC;
+            PWRITE : IN STD_LOGIC;
+            PWDATA : IN STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
+            PSTRB : IN STD_LOGIC_VECTOR(C_STRB_WIDTH-1 downto 0);
+            PREADY : OUT STD_LOGIC;
+            PRDATA : OUT STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
+            PSLVERR : OUT STD_LOGIC
+        );
+    end component;
+
     component APB_hamming_distance is
         generic (
             G_BASE_ADDRESS : STD_LOGIC_VECTOR(32-1 downto 0) := x"00000000";
