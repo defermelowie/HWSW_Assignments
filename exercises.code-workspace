@@ -11,6 +11,66 @@
 		"files.associations": {
 			"print.h": "c",
 			"counter.h": "c",
-		}
+			"stdint.h": "c"
+		},
+		"todo-tree.general.tags": [
+			"BUG",
+			"FIXME",
+			"TODO",
+			"SOURCE",
+			"DOCS",
+			"INFO",
+			"USAGE",
+			"[ ]",
+			"[x]"
+		],
+		"todo-tree.highlights.customHighlight": {
+			"BUG": {
+				"icon": "bug",
+				"background": "#BF616A",
+				"foreground": "#4C566A",
+				"iconColour": "#BF616A",
+				"type": "text",
+				"gutterIcon": true
+			},
+			"FIXME": {
+				"icon": "stop",
+				"background": "#D08770",
+				"foreground": "#4C566A",
+				"iconColour": "#D08770",
+				"type": "text",
+				"gutterIcon": true
+			},
+			"TODO": {
+				"icon": "alert",
+				"background": "#EBCB8B",
+				"foreground": "#4C566A",
+				"iconColour": "#EBCB8B"
+			},
+			"SOURCE": {
+				"icon": "$(references)",
+				"background": "#A3BE8C",
+				"foreground": "#4C566A",
+				"iconColour": "terminal.ansiBrightGreen"
+			},
+			"DOCS": {
+				"icon": "$(references)",
+				"background": "#A3BE8C",
+				"foreground": "#4C566A",
+				"iconColour": "terminal.ansiBrightGreen"
+			},
+			"INFO": {
+				"icon": "info",
+				"background": "#81A1C1",
+				"foreground": "#4C566A",
+				"iconColour": "#81A1C1"
+			},
+			"USAGE": {
+				"icon": "info",
+				"background": "#81A1C1",
+				"foreground": "#4C566A",
+				"iconColour": "#81A1C1"
+			}
+		}	
 	}
 }
