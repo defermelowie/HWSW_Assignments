@@ -11,9 +11,23 @@
 #ifndef XOODYAK_H
 #define XOODYAK_H
 
-#define XOODYAK_NUMOF_SHEETS 4 // this is the X coordinate
-#define XOODYAK_NUMOF_PLANES 3 // this is the Y coordinate
-#define XOODYAK_LANESIZE 4 // this is the Z coordinate
+#include "xoodoo.h"
+
+#define XOODYAK_NUMOF_SHEETS XOODOO_NUMOF_SHEETS // this is the X coordinate
+#define XOODYAK_NUMOF_PLANES XOODOO_NUMOF_PLANES // this is the Y coordinate
+#define XOODYAK_LANESIZE XOODOO_LANESIZE // this is the Z coordinate
+
+// Define modes
+#define XOODYAK_MODE_HASH 1
+#define XOODYAK_MODE_KEY 2 // NOT IMPLEMENTED
+
+// Define bitrates
+#define XOODYAK_R_ABSORB_HASH 16
+#define XOODYAK_R_SQUEEZE_HASH 16
+
+// Define phases
+#define XOODYAK_PHASE_UP 1
+#define XOODYAK_PHASE_DOWN 2
 
 typedef unsigned char xoodyak_lane[XOODYAK_LANESIZE];
 typedef xoodyak_lane xoodyak_plane[XOODYAK_NUMOF_SHEETS];
@@ -25,14 +39,14 @@ struct cyclist {
     unsigned char mode;
     unsigned char Rabsorb;
     unsigned char Rsqueeze;
-};
+} typedef cyclist;
 
 /**
- * @brief Create a cyclist
+ * @brief Initialize a new cyclist to hash mode
  * 
- * @param c Cyclist object to fill
+ * @param c Cyclist object to initialize 
  */
-void cyclist_initialise_hash(struct cyclist *c);
+void cyclist_initialise_hash(cyclist *c);
 
 /**
  * @brief Absorb the message
@@ -41,7 +55,7 @@ void cyclist_initialise_hash(struct cyclist *c);
  * @param m Message
  * @param mlen Message lenght
  */
-void cyclist_absorb(struct cyclist *c, unsigned char *m, int mlen);
+void cyclist_absorb(cyclist *c, unsigned char *m, int mlen);
 
 /**
  * @brief Squeeze out the digest
@@ -51,6 +65,15 @@ void cyclist_absorb(struct cyclist *c, unsigned char *m, int mlen);
  * @param mlen Message lenght
  * @param breadcrumb 
  */
-void cyclist_squeeze(struct cyclist *c, unsigned char *m, int mlen, unsigned char breadcrumb);
+void cyclist_squeeze(cyclist *c, unsigned char *m, int mlen, unsigned char breadcrumb);
+
+#ifdef __linux__
+/**
+ * @brief Print cyclist to stdout (Only for testing on linux)
+ * 
+ * @param c The cyclist to print
+ */
+void cyclist_print(cyclist *c);
+#endif
 
 #endif

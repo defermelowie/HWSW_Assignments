@@ -1,8 +1,9 @@
 # Makefile
 
 RISCV_GNU_TOOLCHAIN_GIT_REVISION = 411d134
-RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX = /home/lowie/Programs/riscv-gnu-toolchain
+RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX = /home/ldefe/.programs/riscv
 TOOLCHAIN_PREFIX = $(RISCV_GNU_TOOLCHAIN_INSTALL_PREFIX)/bin/riscv32-unknown-elf-
+#TOOLCHAIN_PREFIX = riscv32-unknown-elf-
 
 PYTHON = /usr/bin/python3
 
@@ -18,7 +19,7 @@ ARCHITECTURE = rv32i$(subst C,c,$(COMPRESSED_ISA))
 
 BUILDDIR = build
 SOURCEDIR = src
-TOOLSDIR = /home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/tools
+TOOLSDIR = /mnt/c/Users/ldefe/Documents/IIW/HW_SW_Codesign/exercises/tools
 TARGETDIR = target
 
 SOURCES = $(wildcard $(SOURCEDIR)/*.c)
