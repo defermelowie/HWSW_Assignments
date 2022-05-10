@@ -7,15 +7,24 @@
 // By: Lowie Deferme (UHasselt/KULeuven - FIIW)
 // On: 21 April 2022
 //-------------------------------------------------------------
-#include "xoodoo.h"
+
+#define XOODOO_HW
 
 #include <stdint.h>
+#include "xoodoo.h"
+
+#ifdef XOODOO_HW
+#include "xoodoo_driver.h"
+#include "print.h" // note: For debugging
+#endif
 
 #ifdef __linux__
 #include <stdio.h>
 #endif
 
 /* Intern */
+
+#ifndef XOODOO_HW // Intern functions are not needed in case of hardware offload
 
 // Define alternative types to hold state data
 typedef unsigned char xoodoo_byte_vector[XOODOO_NUMOF_PLANES * XOODOO_NUMOF_SHEETS * XOODOO_LANESIZE];
@@ -30,7 +39,7 @@ const unsigned int round_constants[] = XOODOO_ROUND_CONSTANTS;
  * @param state 3d state to convert from
  * @param vector lane array to convert to
  */
-void xoodoo_state_2_lane_vector(xoodoo_state *state, xoodoo_lane_array *vector)
+void xoodoo_state_2_lane_array(xoodoo_state *state, xoodoo_lane_array *vector)
 {
     for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
     {
@@ -77,11 +86,12 @@ uint32_t cyclic_shift_left(uint32_t i, int n)
 
 /**
  * @brief Copy lane array form src to dst
- * 
+ *
  * @param src array to copy from
  * @param dst array to copy to
  */
-void copy_lane_array(xoodoo_lane_array *src, xoodoo_lane_array *dst){
+void copy_lane_array(xoodoo_lane_array *src, xoodoo_lane_array *dst)
+{
     for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
     {
         for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
@@ -127,24 +137,24 @@ void print_lane_array(xoodoo_lane_array *lane_array)
 
 /**
  * @brief Do a xoodoo permutation round
- * 
+ *
  * @note
  *  source: https://eprint.iacr.org/2018/767.pdf - Algorithm 1
  *  source: https://keccak.team/xoodoo.html
  *  source: https://github.com/XKCP/XKCP/blob/master/lib/low/Xoodoo/ref/Xoodoo-reference.c
- * 
+ *
  * @param state State to do round on
  * @param round_constant Round constant to add
  */
 void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
 {
     // Setup for easier calculation using 32 bit lanes
-    //printf("[XOODOO] Round setup\n");
+    // printf("[XOODOO] Round setup\n");
     xoodoo_lane_array A;
-    xoodoo_state_2_lane_vector(state, &A);
+    xoodoo_state_2_lane_array(state, &A);
 
     // Theta
-    //printf("[XOODOO] Theta\n");
+    // printf("[XOODOO] Theta\n");
     uint32_t P[XOODOO_NUMOF_SHEETS];
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         P[x] = A[0][x] ^ A[1][x] ^ A[2][x];
@@ -156,38 +166,39 @@ void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
             A[y][x] ^= E[x];
 
     // Rho west
-    //printf("[XOODOO] Rho west\n");
-    xoodoo_lane_array T;    // Temporary lane array
+    // printf("[XOODOO] Rho west\n");
+    xoodoo_lane_array T; // Temporary lane array
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
     {
-        T[0][x] = A[0][x];                              // Plane 0
-        T[1][x] = A[1][(x - 1) % XOODOO_NUMOF_SHEETS];  // Plane 1
-        T[2][x] = cyclic_shift_left(A[2][x], 11);       // Plane 2
+        T[0][x] = A[0][x];                             // Plane 0
+        T[1][x] = A[1][(x - 1) % XOODOO_NUMOF_SHEETS]; // Plane 1
+        T[2][x] = cyclic_shift_left(A[2][x], 11);      // Plane 2
     }
 
     // Iota
-    //printf("[XOODOO] Iota\n");
+    // printf("[XOODOO] Iota\n");
     T[0][0] ^= round_constant;
 
     // Chi
-    //printf("[XOODOO] Chi\n");
+    // printf("[XOODOO] Chi\n");
     xoodoo_lane_array B;
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         for (unsigned int y = 0; y < XOODOO_NUMOF_PLANES; y++)
             B[y][x] = T[y][x] ^ (~T[(y + 1) % XOODOO_NUMOF_PLANES][x] & T[(y + 2) % XOODOO_NUMOF_PLANES][x]);
 
     // Pho east
-    //printf("[XOODOO] Rho east\n");
+    // printf("[XOODOO] Rho east\n");
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
     {
-        A[0][x] = B[0][x];                                                      // Plane 0    
-        A[1][x] = cyclic_shift_left(B[1][x], 1);                                // Plane 1
-        A[2][x] = cyclic_shift_left(B[2][(x - 2) % XOODOO_NUMOF_SHEETS], 8);    // Plane 2
+        A[0][x] = B[0][x];                                                   // Plane 0
+        A[1][x] = cyclic_shift_left(B[1][x], 1);                             // Plane 1
+        A[2][x] = cyclic_shift_left(B[2][(x - 2) % XOODOO_NUMOF_SHEETS], 8); // Plane 2
     }
 
     // Convert back to state
     xoodoo_lane_array_2_state(state, &A);
 }
+#endif
 
 /* API */
 
@@ -205,6 +216,7 @@ void xoodoo_init_empty_state(xoodoo_state *state)
     }
 }
 
+#ifndef XOODOO_HW
 void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
 {
     for (int round = 0; round < number_of_rounds; round++)
@@ -212,3 +224,10 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
         xoodoo_round(state, round_constants[round]);
     }
 }
+#else
+void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
+{
+    // todo: offload permutation to HW
+    print_str("xoodoo_permute was called");
+}
+#endif
