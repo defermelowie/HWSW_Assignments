@@ -11,14 +11,13 @@
 
 #ifdef __linux__
 #include <stdio.h>
-#include <stdint.h>
 #endif
 
 /* Intern */
 
 // Define alternative types to hold state data
 typedef unsigned char xoodoo_byte_vector[XOODOO_NUMOF_PLANES * XOODOO_NUMOF_SHEETS * XOODOO_LANESIZE];
-typedef uint32_t xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
+typedef unsigned int xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
 
 // Round constants to constant array
 const unsigned int round_constants[] = XOODOO_ROUND_CONSTANTS;
@@ -36,7 +35,7 @@ void xoodoo_state_2_lane_vector(xoodoo_state *state, xoodoo_lane_array *vector)
         for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         {
             // source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
-            uint32_t lane = (*state)[y][x][0] | ((*state)[y][x][1] << 8) | ((*state)[y][x][2] << 16) | ((*state)[y][x][3] << 24);
+            unsigned int lane = (*state)[y][x][0] | ((*state)[y][x][1] << 8) | ((*state)[y][x][2] << 16) | ((*state)[y][x][3] << 24);
             (*vector)[y][x] = lane;
         }
     }
@@ -50,7 +49,7 @@ void xoodoo_state_2_lane_vector(xoodoo_state *state, xoodoo_lane_array *vector)
  */
 void xoodoo_lane_array_2_state(xoodoo_state *state, xoodoo_lane_array *vector)
 {
-    for (int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
     {
         for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
         {
@@ -67,9 +66,9 @@ void xoodoo_lane_array_2_state(xoodoo_state *state, xoodoo_lane_array *vector)
  *
  * @param i 32 bit word to shift
  * @param n shift amount
- * @return uint32_t
+ * @return unsigned int
  */
-uint32_t cyclic_shift_left(uint32_t i, int n)
+unsigned int cyclic_shift_left(unsigned int i, int n)
 {
     return (i << n % 32) | (i >> (32 - n));
 }
@@ -144,20 +143,20 @@ void xoodoo_round(xoodoo_state *state, unsigned int round_constant)
 
     // Theta
     //printf("[XOODOO] Theta\n");
-    uint32_t P[XOODOO_NUMOF_SHEETS];
-    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    unsigned int P[XOODOO_NUMOF_SHEETS];
+    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         P[x] = A[0][x] ^ A[1][x] ^ A[2][x];
-    uint32_t E[XOODOO_NUMOF_SHEETS];
-    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    unsigned int E[XOODOO_NUMOF_SHEETS];
+    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         E[x] = cyclic_shift_left(P[(x - 1) % XOODOO_NUMOF_SHEETS], 5) ^ cyclic_shift_left(P[(x - 1) % XOODOO_NUMOF_SHEETS], 14);
-    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
             A[y][x] ^= E[x];
 
     // Rho west
     //printf("[XOODOO] Rho west\n");
     xoodoo_lane_array T;    // Temporary lane array
-    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
     {
         T[0][x] = A[0][x];                              // Plane 0
         T[1][x] = A[1][(x - 1) % XOODOO_NUMOF_SHEETS];  // Plane 1
@@ -171,13 +170,13 @@ void xoodoo_round(xoodoo_state *state, unsigned int round_constant)
     // Chi
     //printf("[XOODOO] Chi\n");
     xoodoo_lane_array B;
-    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         for (unsigned int y = 0; y < XOODOO_NUMOF_PLANES; y++)
             B[y][x] = T[y][x] ^ (~T[(y + 1) % XOODOO_NUMOF_PLANES][x] & T[(y + 2) % XOODOO_NUMOF_PLANES][x]);
 
     // Pho east
     //printf("[XOODOO] Rho east\n");
-    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; ++x)
+    for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
     {
         A[0][x] = B[0][x];                                                      // Plane 0    
         A[1][x] = cyclic_shift_left(B[1][x], 1);                                // Plane 1
