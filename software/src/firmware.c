@@ -29,12 +29,23 @@ void main(void)
 	print_str("-message:");
 	array_print_hex(msg, MSG_LEN);
 
+	// Start counter
+	counter_start();
+
 	// Calculate hash
 	cyclist_initialise_hash(&cy);
 	cyclist_absorb(&cy, msg, MSG_LEN);
 	cyclist_squeeze(&cy, digest, DIGEST_LEN, 0x40);
 
+	// Stop counter
+	counter_stop();
+	int ctr = counter_get_value();
+
 	// Print digest
 	print_str("-digest:");
 	array_print_hex(digest, DIGEST_LEN);
+
+	// Print counter
+	print_str("-counter:");
+	print_hex(ctr, 8);
 }
