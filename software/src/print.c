@@ -9,17 +9,32 @@
 
 #define OUTPORT 0x80000000
 
+/**
+ * @brief Print individual character
+ *
+ * @param ch Character to print
+ */
 void print_chr(char ch)
 {
 	*((volatile uint32_t *)OUTPORT) = ch;
 }
 
+/**
+ * @brief Print string from pointer
+ *
+ * @param p Pointer to string
+ */
 void print_str(const char *p)
 {
 	while (*p != 0)
 		*((volatile uint32_t *)OUTPORT) = *(p++);
 }
 
+/**
+ * @brief Print val as decimal
+ *
+ * @param val Value to print
+ */
 void print_dec(unsigned int val)
 {
 	char buffer[10];
@@ -36,6 +51,12 @@ void print_dec(unsigned int val)
 	}
 }
 
+/**
+ * @brief Print val as hexidecimal
+ *
+ * @param val Value to print
+ * @param digits Amount of characters
+ */
 void print_hex(unsigned int val, int digits)
 {
 	for (int i = (4 * digits) - 4; i >= 0; i -= 4)
