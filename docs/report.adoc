@@ -1,0 +1,38 @@
+= Xoodyak with hardware offload of xoodoo permutation
+:author: Lowie Deferme
+:source-highlighter: pygments
+
+== Software only
+
+=== Setup
+
+The source of this test can be found in https://github.com/defermelowie/HWSW_Exercises/tree/project[this github repo] at commit `f0d9abc7234f2edcdee0af1f371acc465f7b814b`.
+
+=== Results
+
+==== Counter
+
+Counter value was `0x0005C7BE` which is `378814`
+
+==== Synthesis report
+
+== Hardware software codesign
+
+=== Setup
+
+=== Results
+
+==== Counter
+
+==== Synthesis report
+
+== Summary
+
+|===
+|| *Software* | *Hardware* 
+| Counter value | `0x0005C7BE` | ? 
+| Elf-size | ? | ? 
+| Registers | ? | ? 
+| LUTs | ? | ? 
+|===
+
