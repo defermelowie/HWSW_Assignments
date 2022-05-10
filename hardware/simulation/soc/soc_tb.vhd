@@ -90,7 +90,7 @@ begin
         generic map (
             G_BASE_ADDRESS => C_BASE_ADDRESS_0,
             G_HIGH_ADDRESS => C_HIGH_ADDRESS_0,
-            FNAME_HEX => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/software/target/firmware.hex"
+            FNAME_HEX => "C:\Users\ldefe\Documents\IIW\HW_SW_Codesign\exercises\software\target\firmware.hex"
         ) port map (
             resetn => resetn_i,
             clock => clock_i,
@@ -112,7 +112,7 @@ begin
     APB_print_inst00: component APB_print generic map(
             G_BASE_ADDRESS => C_BASE_ADDRESS_1,
             G_HIGH_ADDRESS => C_HIGH_ADDRESS_1,
-            FNAME_OUT => "/home/lowie/Documents/IIW/S8/HW_SW_Codesign/exercises/software/target/simulation_output.dat"
+            FNAME_OUT => "C:\Users\ldefe\Documents\IIW\HW_SW_Codesign\exercises\software\target\simulation_output.dat"
         ) port map (
             resetn => resetn_i,
             clock => clock_i,
