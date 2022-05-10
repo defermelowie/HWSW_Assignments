@@ -9,6 +9,8 @@
 //-------------------------------------------------------------
 #include "xoodoo.h"
 
+#include <stdint.h>
+
 #ifdef __linux__
 #include <stdio.h>
 #endif
@@ -17,7 +19,7 @@
 
 // Define alternative types to hold state data
 typedef unsigned char xoodoo_byte_vector[XOODOO_NUMOF_PLANES * XOODOO_NUMOF_SHEETS * XOODOO_LANESIZE];
-typedef unsigned int xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
+typedef uint32_t xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
 
 // Round constants to constant array
 const unsigned int round_constants[] = XOODOO_ROUND_CONSTANTS;
@@ -66,9 +68,9 @@ void xoodoo_lane_array_2_state(xoodoo_state *state, xoodoo_lane_array *vector)
  *
  * @param i 32 bit word to shift
  * @param n shift amount
- * @return unsigned int
+ * @return uint32_t
  */
-unsigned int cyclic_shift_left(unsigned int i, int n)
+uint32_t cyclic_shift_left(uint32_t i, int n)
 {
     return (i << n % 32) | (i >> (32 - n));
 }
@@ -134,7 +136,7 @@ void print_lane_array(xoodoo_lane_array *lane_array)
  * @param state State to do round on
  * @param round_constant Round constant to add
  */
-void xoodoo_round(xoodoo_state *state, unsigned int round_constant)
+void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
 {
     // Setup for easier calculation using 32 bit lanes
     //printf("[XOODOO] Round setup\n");
@@ -143,10 +145,10 @@ void xoodoo_round(xoodoo_state *state, unsigned int round_constant)
 
     // Theta
     //printf("[XOODOO] Theta\n");
-    unsigned int P[XOODOO_NUMOF_SHEETS];
+    uint32_t P[XOODOO_NUMOF_SHEETS];
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         P[x] = A[0][x] ^ A[1][x] ^ A[2][x];
-    unsigned int E[XOODOO_NUMOF_SHEETS];
+    uint32_t E[XOODOO_NUMOF_SHEETS];
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         E[x] = cyclic_shift_left(P[(x - 1) % XOODOO_NUMOF_SHEETS], 5) ^ cyclic_shift_left(P[(x - 1) % XOODOO_NUMOF_SHEETS], 14);
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
