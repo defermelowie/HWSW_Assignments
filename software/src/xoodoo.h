@@ -11,13 +11,13 @@
 #ifndef XOODOO_H
 #define XOODOO_H
 
-// SOURCE: https://eprint.iacr.org/2018/767.pdf#6
+// source: https://eprint.iacr.org/2018/767.pdf#6
 #define XOODOO_NUMOF_SHEETS 4 // The maximum X coordinate is 4
 #define XOODOO_NUMOF_PLANES 3 // The maximum Y coordinate is 3
 #define XOODOO_LANESIZE 4     // The maximum Z coordinate is 4
 
 // Define round constants
-// SOURCE: https://eprint.iacr.org/2018/767.pdf - Table 5
+// source: https://eprint.iacr.org/2018/767.pdf#page=30 - Table 5
 #define XOODOO_ROUND_CONSTANTS { \
     0x00000058,                  \
     0x00000038,                  \

@@ -23,40 +23,6 @@ typedef uint32_t xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
 // Round constants to constant array
 const unsigned int round_constants[] = XOODOO_ROUND_CONSTANTS;
 
-/*
-// Conversion of state data from 3d state to byte vector
-void xoodoo_state_2_byte_vector(xoodoo_state *state, xoodoo_byte_vector *vector)
-{
-    for (int z = 0; z < XOODOO_LANESIZE; z++)
-    {
-        for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
-        {
-            for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
-            {
-                // SOURCE: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
-                (*vector)[z + 4 * (x + 4 * y)] = (*state)[y][x][z];
-            }
-        }
-    }
-}
-
-// Conversion of state data from byte vector to 3d state
-void xoodoo_byte_vector_2_state(xoodoo_state *state, xoodoo_byte_vector *vector)
-{
-    for (int z = 0; z < XOODOO_LANESIZE; z++)
-    {
-        for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
-        {
-            for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
-            {
-                // SOURCE: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
-                (*state)[y][x][z] = (*vector)[z + 4 * (x + 4 * y)];
-            }
-        }
-    }
-}
-*/
-
 /**
  * @brief Conversion of state data from 3d state to lane array
  *
@@ -69,7 +35,7 @@ void xoodoo_state_2_lane_vector(xoodoo_state *state, xoodoo_lane_array *vector)
     {
         for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         {
-            // SOURCE: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
+            // source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
             uint32_t lane = (*state)[y][x][0] | ((*state)[y][x][1] << 8) | ((*state)[y][x][2] << 16) | ((*state)[y][x][3] << 24);
             (*vector)[y][x] = lane;
         }
@@ -158,9 +124,17 @@ void print_lane_array(xoodoo_lane_array *lane_array)
 }
 #endif
 
-// SOURCE: https://eprint.iacr.org/2018/767.pdf - Algorithm 1
-// SOURCE: https://keccak.team/xoodoo.html
-// SOURCE: https://github.com/XKCP/XKCP/blob/master/lib/low/Xoodoo/ref/Xoodoo-reference.c
+/**
+ * @brief Do a xoodoo permutation round
+ * 
+ * @note
+ *  source: https://eprint.iacr.org/2018/767.pdf - Algorithm 1
+ *  source: https://keccak.team/xoodoo.html
+ *  source: https://github.com/XKCP/XKCP/blob/master/lib/low/Xoodoo/ref/Xoodoo-reference.c
+ * 
+ * @param state State to do round on
+ * @param round_constant Round constant to add
+ */
 void xoodoo_round(xoodoo_state *state, unsigned int round_constant)
 {
     // Setup for easier calculation using 32 bit lanes
@@ -234,10 +208,6 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
 {
     for (int round = 0; round < number_of_rounds; round++)
     {
-        printf("------------------------------------------------\n");
-        printf("[XOODOO] Round %d\n", round);
-        printf("[XOODOO] Round constant: 0x%04x\n", round_constants[round]);
         xoodoo_round(state, round_constants[round]);
-        print_state(state);
     }
 }
