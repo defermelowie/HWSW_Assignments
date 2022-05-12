@@ -48,7 +48,7 @@ architecture rtl of xoodoo_permutation is
     type T_fsm_state IS (R, L, P, F);  -- define states (Ready, Load, Permute, Finished)
     signal fsm_state : T_fsm_state; -- fsm state signal
 
-    -- Round counter signal
+    -- Round counter signals
     signal round_ctr, round_nr : STD_LOGIC_VECTOR(3 downto 0);
 
     -- Plane type
@@ -65,6 +65,9 @@ architecture rtl of xoodoo_permutation is
     -- Helpers
     signal theta_e_0, theta_e_1 : T_plane;
     signal round_constant : STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
+
+    -- Register @ end of round
+    signal round_reg : T_lane_array;
 
     -- Index function for lane array type
     function index(y : integer := 0; x : integer := 0) 
@@ -92,10 +95,12 @@ begin
     -- COMBINATORIAL
     -------------------------------------------------------------------------------
 
+    -- Ready is high when fsm in Finished
     ready_i <= '1' when (fsm_state = F) else '0'; 
 
     -- Todo: set number_of_rounds_error_i to '1' when number_of_rounds_i > x"b"
 
+    -- Select round constant
     with round_nr select round_constant <=
         x"00000058" when x"0",
         x"00000038" when x"1",
@@ -110,6 +115,13 @@ begin
         x"000001A0" when x"a",
         x"00000012" when x"b",
         x"00000000" when others;
+    
+    -- Definition of state out
+    with fsm_state select state_out_i <=
+        state_out_i when R,
+        state_out_i when L,
+        state_out_i when P,
+        round_reg when F;
 
     -------------------------------------------------------------------------------
     -- FINITE STATE MACHINE
@@ -146,28 +158,27 @@ begin
     end process; -- P_ROUND_CTR 
 
     -------------------------------------------------------------------------------
-    -- STATE OUT DEFINITION
+    -- ROUND REGISTER
     -------------------------------------------------------------------------------
-    P_STATE_OUT : process(reset_i, clk_i)
+    P_ROUND_REG : process(reset_i, clk_i)
     begin
         if reset_i = '0' then
-            state_out_i <= (others => (others => '0'));
+            round_reg <= (others => (others => '0'));
         elsif rising_edge(clk_i) then
-            -- Todo: if state out = last permutation output if state if finished
             case fsm_state is
-                when R => state_out_i <= state_out_i;
-                when L => state_out_i <= state_out_i;
-                when P => state_out_i <= state_out_i;
-                when F => state_out_i <= rho_e_out;
+                when R => round_reg <= (others => (others => '0'));
+                when L => round_reg <= state_in_i;
+                when P => round_reg <= rho_e_out;
+                when F => round_reg <= round_reg;
             end case;
         end if;
-    end process ; -- P_STATE_OUT
+    end process ; -- P_ROUND_REG
 
     -------------------------------------------------------------------------------
     -- PERMUTATION
     -------------------------------------------------------------------------------
     -- Link stages
-    theta_in <= state_in_i; -- Fixme: theta in is state_in only for first round
+    theta_in <= round_reg;
     rho_w_in <= theta_out;
     iota_in <= rho_w_out;
     chi_in <= iota_out;

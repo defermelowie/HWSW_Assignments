@@ -13,9 +13,9 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="4.333333 us"></ZoomStartTime>
-      <ZoomEndTime time="30.333334 us"></ZoomEndTime>
-      <Cursor1Time time="26.000000 us"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="54.250001 us"></ZoomEndTime>
+      <Cursor1Time time="1.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="256"></NameColumnWidth>
@@ -162,34 +162,54 @@
          <obj_property name="ElementShortName">PSLVERR</obj_property>
          <obj_property name="ObjectShortName">PSLVERR</obj_property>
       </wvobject>
-      <wvobject fp_name="group337" type="group">
-         <obj_property name="label">Round</obj_property>
+      <wvobject fp_name="group397" type="group">
+         <obj_property name="label">Permute component</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/round_nr" type="array">
-            <obj_property name="ElementShortName">round_nr[3:0]</obj_property>
-            <obj_property name="ObjectShortName">round_nr[3:0]</obj_property>
+         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/fsm_state" type="other">
+            <obj_property name="ElementShortName">fsm_state</obj_property>
+            <obj_property name="ObjectShortName">fsm_state</obj_property>
          </wvobject>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/theta_in" type="array">
-            <obj_property name="ElementShortName">theta_in[11:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">theta_in[11:0][31:0]</obj_property>
+         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/state_in" type="array">
+            <obj_property name="ElementShortName">state_in[11:0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">state_in[11:0][31:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/rho_w_in" type="array">
-            <obj_property name="ElementShortName">rho_w_in[11:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">rho_w_in[11:0][31:0]</obj_property>
+         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/state_out" type="array">
+            <obj_property name="ElementShortName">state_out[11:0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">state_out[11:0][31:0]</obj_property>
          </wvobject>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/iota_in" type="array">
-            <obj_property name="ElementShortName">iota_in[11:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">iota_in[11:0][31:0]</obj_property>
-         </wvobject>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/chi_in" type="array">
-            <obj_property name="ElementShortName">chi_in[11:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">chi_in[11:0][31:0]</obj_property>
-            <obj_property name="isExpanded"></obj_property>
-         </wvobject>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/rho_e_in" type="array">
-            <obj_property name="ElementShortName">rho_e_in[11:0][31:0]</obj_property>
-            <obj_property name="ObjectShortName">rho_e_in[11:0][31:0]</obj_property>
+         <wvobject fp_name="group337" type="group">
+            <obj_property name="label">Round</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/round_nr" type="array">
+               <obj_property name="ElementShortName">round_nr[3:0]</obj_property>
+               <obj_property name="ObjectShortName">round_nr[3:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/theta_in" type="array">
+               <obj_property name="ElementShortName">theta_in[11:0][31:0]</obj_property>
+               <obj_property name="ObjectShortName">theta_in[11:0][31:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/rho_w_in" type="array">
+               <obj_property name="ElementShortName">rho_w_in[11:0][31:0]</obj_property>
+               <obj_property name="ObjectShortName">rho_w_in[11:0][31:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/iota_in" type="array">
+               <obj_property name="ElementShortName">iota_in[11:0][31:0]</obj_property>
+               <obj_property name="ObjectShortName">iota_in[11:0][31:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/chi_in" type="array">
+               <obj_property name="ElementShortName">chi_in[11:0][31:0]</obj_property>
+               <obj_property name="ObjectShortName">chi_in[11:0][31:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/rho_e_in" type="array">
+               <obj_property name="ElementShortName">rho_e_in[11:0][31:0]</obj_property>
+               <obj_property name="ObjectShortName">rho_e_in[11:0][31:0]</obj_property>
+            </wvobject>
+            <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/rho_e_out" type="array">
+               <obj_property name="ElementShortName">rho_e_out[11:0][31:0]</obj_property>
+               <obj_property name="ObjectShortName">rho_e_out[11:0][31:0]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
+            </wvobject>
          </wvobject>
       </wvobject>
    </wvobject>
