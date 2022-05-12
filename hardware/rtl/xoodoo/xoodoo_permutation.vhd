@@ -139,7 +139,7 @@ begin
             case fsm_state is
                 when R => round_ctr <= b"0000"; round_nr <= b"0000";
                 when L => round_ctr <= number_of_rounds_i; round_nr <= b"0000";
-                when P => round_ctr <= round_ctr - 1; round_nr <= round_nr; -- Todo: round_nr <= round_nr + 1;
+                when P => round_ctr <= round_ctr - 1; round_nr <= round_nr + 1;
                 when F => round_ctr <= round_ctr; round_nr <= round_nr;
             end case;
         end if;
@@ -208,6 +208,17 @@ begin
     end generate ; -- G_IOTA_S
 
     -- Chi
+    G_CHI_S : for x in 0 to C_XOODOO_NUMOF_SHEETS-1 generate
+        G_CHI_P : for y in 0 to C_XOODOO_NUMOF_PLANES-1 generate
+                chi_out(index(y, x)) <= chi_in(index(y , x)) xor ((not chi_in(index((y + 1) mod  C_XOODOO_NUMOF_PLANES, x))) and chi_in(index((y + 2) mod  C_XOODOO_NUMOF_PLANES, x)));
+        end generate ; -- G_CHI_P
+    end generate ; -- G_CHI_S
     
+    -- Rho east
+    G_RHO_E : for x in 0 to C_XOODOO_NUMOF_SHEETS-1 generate
+        rho_e_out(index(0, x)) <= rho_e_in(index(0, x));
+        rho_e_out(index(1, x)) <= rho_e_in(index(1, x))(30 downto 0) & rho_e_in(index(1, x))(31);
+        rho_e_out(index(2, x)) <= rho_e_in(index(2, (x - 2) mod C_XOODOO_NUMOF_SHEETS))(23 downto 0) & rho_e_in(index(2, (x - 2) mod C_XOODOO_NUMOF_SHEETS))(31 downto 24);
+    end generate ; -- G_RHO_E
 
 end architecture rtl;
