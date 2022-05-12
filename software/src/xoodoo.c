@@ -259,7 +259,8 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
     // Set data valid
     XOODOO_HW_CONTROL_REG |= XOODOO_HW_CONTROL_DATA_VALID;
 
-    // Todo: poll if hw is done
+    // Poll if hw is done
+    while ((XOODOO_HW_STATUS_REG & XOODOO_HW_STATUS_FIN) == 0);
 
     // Get state from hardware
     xoodoo_lane_array_2_state(state, ((xoodoo_lane_array *)XOODOO_HW_LANE_ARRAY_IN)); // Fixme: out of bounds if size > 12 lanes

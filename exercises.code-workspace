@@ -14,7 +14,8 @@
 			"stdint.h": "c",
 			"xoodoo_driver.h": "c",
 			"xoodoo.h": "c",
-			"xoodyak.h": "c"
+			"xoodyak.h": "c",
+			"xlocale": "c"
 		},
 		"todo-tree.filtering.excludeGlobs": [
 			"**/Makefile",

@@ -13,10 +13,8 @@
 
 #include <stdint.h>
 
-#ifndef __linux__
 // Use hardware implementation
-#define XOODOO_HW // note: comment out in order to fall back to software
-#endif
+#define XOODOO_HW // note: comment out in order to use software implementation
 
 // source: https://eprint.iacr.org/2018/767.pdf#6
 #define XOODOO_NUMOF_SHEETS 4 // The maximum X coordinate is 4
@@ -63,6 +61,8 @@ typedef uint32_t xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
 
 #define XOODOO_HW_CONTROL_NOR_MASK 0x0000000f   // Bits 0..3
 #define XOODOO_HW_CONTROL_DATA_VALID 0x00000010 // Bit 4
+
+#define XOODOO_HW_STATUS_FIN 0x00000001 // Bit 0
 
 #endif
 
