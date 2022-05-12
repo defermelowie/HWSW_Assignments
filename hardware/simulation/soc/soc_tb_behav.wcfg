@@ -13,9 +13,9 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="67.979116 us"></ZoomEndTime>
-      <Cursor1Time time="51.000000 us"></Cursor1Time>
+      <ZoomStartTime time="4.333333 us"></ZoomStartTime>
+      <ZoomEndTime time="30.333334 us"></ZoomEndTime>
+      <Cursor1Time time="26.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="256"></NameColumnWidth>
@@ -166,9 +166,9 @@
          <obj_property name="label">Round</obj_property>
          <obj_property name="DisplayName">label</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/round_ctr" type="array">
-            <obj_property name="ElementShortName">round_ctr[3:0]</obj_property>
-            <obj_property name="ObjectShortName">round_ctr[3:0]</obj_property>
+         <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/round_nr" type="array">
+            <obj_property name="ElementShortName">round_nr[3:0]</obj_property>
+            <obj_property name="ObjectShortName">round_nr[3:0]</obj_property>
          </wvobject>
          <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/theta_in" type="array">
             <obj_property name="ElementShortName">theta_in[11:0][31:0]</obj_property>
@@ -185,6 +185,7 @@
          <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/chi_in" type="array">
             <obj_property name="ElementShortName">chi_in[11:0][31:0]</obj_property>
             <obj_property name="ObjectShortName">chi_in[11:0][31:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
          </wvobject>
          <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/rho_e_in" type="array">
             <obj_property name="ElementShortName">rho_e_in[11:0][31:0]</obj_property>

@@ -26,6 +26,7 @@ entity xoodoo_permutation is
         state_in : IN T_lane_array;
         ready : OUT STD_LOGIC;
         state_out : OUT T_lane_array
+        --Todo: number_of_rounds_error
     );
 end entity xoodoo_permutation;
 
@@ -48,7 +49,7 @@ architecture rtl of xoodoo_permutation is
     signal fsm_state : T_fsm_state; -- fsm state signal
 
     -- Round counter signal
-    signal round_ctr : STD_LOGIC_VECTOR(3 downto 0);
+    signal round_ctr, round_nr : STD_LOGIC_VECTOR(3 downto 0);
 
     -- Plane type
     type T_plane is array (C_XOODOO_NUMOF_SHEETS-1 downto 0) of STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
@@ -63,6 +64,7 @@ architecture rtl of xoodoo_permutation is
 
     -- Helpers
     signal theta_e_0, theta_e_1 : T_plane;
+    signal round_constant : STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
 
     -- Index function for lane array type
     function index(y : integer := 0; x : integer := 0) 
@@ -89,7 +91,25 @@ begin
     -------------------------------------------------------------------------------
     -- COMBINATORIAL
     -------------------------------------------------------------------------------
+
     ready_i <= '1' when (fsm_state = F) else '0'; 
+
+    -- Todo: set number_of_rounds_error_i to '1' when number_of_rounds_i > x"b"
+
+    with round_nr select round_constant <=
+        x"00000058" when x"0",
+        x"00000038" when x"1",
+        x"000003C0" when x"2",
+        x"000000D0" when x"3",
+        x"00000120" when x"4",
+        x"00000014" when x"5",
+        x"00000060" when x"6",
+        x"0000002C" when x"7",
+        x"00000380" when x"8",
+        x"000000F0" when x"9",
+        x"000001A0" when x"a",
+        x"00000012" when x"b",
+        x"00000000" when others;
 
     -------------------------------------------------------------------------------
     -- FINITE STATE MACHINE
@@ -117,13 +137,13 @@ begin
             round_ctr <= (others => '0');
         elsif rising_edge(clk_i) then
             case fsm_state is
-                when R => round_ctr <= b"0000";
-                when L => round_ctr <= number_of_rounds_i;
-                when P => round_ctr <= round_ctr - 1;
-                when F => round_ctr <= b"0000";
+                when R => round_ctr <= b"0000"; round_nr <= b"0000";
+                when L => round_ctr <= number_of_rounds_i; round_nr <= b"0000";
+                when P => round_ctr <= round_ctr - 1; round_nr <= round_nr; -- Todo: round_nr <= round_nr + 1;
+                when F => round_ctr <= round_ctr; round_nr <= round_nr;
             end case;
         end if;
-    end process; -- P_ROUND_CTR
+    end process; -- P_ROUND_CTR 
 
     -------------------------------------------------------------------------------
     -- STATE OUT DEFINITION
@@ -168,8 +188,26 @@ begin
         end generate ; -- G_THETA_AP
     end generate ; -- G_THETA_AS
 
-    -- -- Rho east
-    -- G_RHO_E : for x in 0 to C_XOODOO_NUMOF_SHEETS-1 generate
-        
-    end generate ; -- G_RHO_E
+    -- Rho west
+    G_RHO_W : for x in 0 to C_XOODOO_NUMOF_SHEETS-1 generate
+        rho_w_out(index(0, x)) <= rho_w_in(index(0, x));
+        rho_w_out(index(1, x)) <= rho_w_in(index(1, (x - 1) mod C_XOODOO_NUMOF_SHEETS));
+        rho_w_out(index(2, x)) <= rho_w_in(index(2, x))(20 downto 0) & rho_w_in(index(2, x))(31 downto 21);
+    end generate ; -- G_RHO_W
+
+    -- Iota
+    G_IOTA_S : for x in 0 to C_XOODOO_NUMOF_SHEETS-1 generate
+        G_IOTA_P : for y in 0 to C_XOODOO_NUMOF_PLANES-1 generate
+            G_IOTA_0 : if (x = 0 and y = 0) generate
+                iota_out(index(0, 0)) <= iota_in(index(0, 0)) xor round_constant;
+            end generate;
+            G_IOTA_N0 : if (x /= 0 or y /= 0) generate
+                iota_out(index(y, x)) <= iota_in(index(y, x));
+            end generate;
+        end generate ; -- G_IOTA_P
+    end generate ; -- G_IOTA_S
+
+    -- Chi
+    
+
 end architecture rtl;
