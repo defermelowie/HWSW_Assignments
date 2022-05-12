@@ -23,10 +23,9 @@ entity xoodoo_permutation is
         reset : IN STD_LOGIC;
         number_of_rounds : IN STD_LOGIC_VECTOR(3 downto 0);
         data_valid : IN STD_LOGIC;
-        -- Todo: State in
-
-        ready : OUT STD_LOGIC
-        -- Todo: State out
+        state_in : IN T_lane_array;
+        ready : OUT STD_LOGIC;
+        state_out : OUT T_lane_array
     );
 end entity xoodoo_permutation;
 

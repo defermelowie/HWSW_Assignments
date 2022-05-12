@@ -77,10 +77,9 @@ architecture rtl of APB_xoodoo is
             reset : IN STD_LOGIC;
             number_of_rounds : IN STD_LOGIC_VECTOR(3 downto 0);
             data_valid : IN STD_LOGIC;
-            -- Todo: State in
-    
-            ready : OUT STD_LOGIC
-            -- Todo: State out
+            state_in : IN T_lane_array;
+            ready : OUT STD_LOGIC;
+            state_out : OUT T_lane_array
         );
     end component; -- xoodoo_permutation
 
@@ -135,7 +134,9 @@ begin
             reset => PRESETn_i,
             number_of_rounds => CONTROL_R(3 downto 0),
             data_valid => CONTROL_R(4),
-            ready => STATUS_R(0)
+            state_in => LANE_IN_V,
+            ready => STATUS_R(0),
+            state_out => LANE_OUT_V
         );
     
     -------------------------------------------------------------------------------
