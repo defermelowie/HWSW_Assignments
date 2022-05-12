@@ -15,13 +15,14 @@ library IEEE;
 
 library work;
     use work.PKG_hwswcodesign.ALL;
+    use work.PKG_xoodoo.ALL;
 
 entity xoodoo_permutation is
     port (
         clock : IN STD_LOGIC;
         reset : IN STD_LOGIC;
         number_of_rounds : IN STD_LOGIC_VECTOR(3 downto 0);
-        load : IN STD_LOGIC;
+        data_valid : IN STD_LOGIC;
         -- Todo: State in
 
         ready : OUT STD_LOGIC
@@ -38,11 +39,11 @@ architecture rtl of xoodoo_permutation is
     signal clk_i : STD_LOGIC;
     signal reset_i : STD_LOGIC;
     signal number_of_rounds_i : STD_LOGIC_VECTOR(3 downto 0);
-    signal load_i : STD_LOGIC;
+    signal data_valid_i : STD_LOGIC;
     signal ready_i : STD_LOGIC;
 
-    -- Fsm states --Todo: Define correct fsm states
-    type T_fsm_state IS (R, C, F);  -- define states (Ready, Count, Finished)
+    -- Fsm states
+    type T_fsm_state IS (R, L, P, F);  -- define states (Ready, Load, Permute, Finished)
     signal fsm_state : T_fsm_state; -- fsm state signal
 
     -- Local signals
@@ -56,7 +57,7 @@ begin
     clk_i <= clock;
     reset_i <= reset;
     number_of_rounds_i <= number_of_rounds;
-    load_i <= load;
+    data_valid_i <= data_valid;
     -- OUTPUT
     ready <= ready_i;
 
@@ -74,9 +75,10 @@ begin
             fsm_state <= R;
         elsif rising_edge(clk_i) then
             case(fsm_state) is
-                when R => fsm_state <= C;
-                when C => fsm_state <= F when (round_ctr = b"0000") else C;
-                when F => fsm_state <= R;
+                when R => fsm_state <= L when data_valid_i else R;
+                when L => fsm_state <= P;
+                when P => fsm_state <= F when (round_ctr = b"0000") else P;
+                when F => fsm_state <= F when data_valid_i else R;  -- Stay in finished while data valid is high
             end case ;
         end if;     
     end process ; -- P_FSM
@@ -90,9 +92,10 @@ begin
             round_ctr <= (others => '0');
         elsif rising_edge(clk_i) then
             case fsm_state is
-                when R => round_ctr <= b"1100";  -- Set at 12 for debugging
-                when C => round_ctr <= round_ctr - 1;
-                when F => round_ctr <= round_ctr;
+                when R => round_ctr <= b"0000";
+                when L => round_ctr <= number_of_rounds_i;
+                when P => round_ctr <= round_ctr - 1;
+                when F => round_ctr <= b"0000";
             end case;
         end if;
     end process; -- P_ROUND_CTR

@@ -54,10 +54,13 @@ typedef uint32_t xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
 
 #define XOODOO_HW_BASEADDRESS 0x81100000
 
-#define XOODOO_HW_CONTROL_ADDR (XOODOO_HW_BASEADDRESS + 0 * 4)                                   // Control register
+#define XOODOO_HW_CONTROL_REG (*(volatile unsigned int *)(XOODOO_HW_BASEADDRESS + 0 * 4))        // Control register
 #define XOODOO_HW_LANE_ARRAY_OUT ((volatile xoodoo_lane_array *)(XOODOO_HW_BASEADDRESS + 1 * 4)) // Address for lane array from SW -> HW
-#define XOODOO_HW_STATUS_ADDR (XOODOO_HW_BASEADDRESS + 13 * 4)                                    // Status register
+#define XOODOO_HW_STATUS_REG (*(volatile unsigned int *)(XOODOO_HW_BASEADDRESS + 13 * 4))        // Status register
 #define XOODOO_HW_LANE_ARRAY_IN ((volatile xoodoo_lane_array *)(XOODOO_HW_BASEADDRESS + 14 * 4)) // Address for lane array from HW -> SW
+
+#define XOODOO_HW_CONTROL_NOR_MASK 0x0000000f   // Bits 0..3
+#define XOODOO_HW_CONTROL_DATA_VALID 0x00000010 // Bit 4
 
 #endif
 

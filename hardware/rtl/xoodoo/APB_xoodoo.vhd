@@ -14,6 +14,7 @@ library IEEE;
 
 library work;
     use work.PKG_hwswcodesign.ALL;
+    use work.PKG_xoodoo.ALL;
 
 entity APB_xoodoo is
     generic (
@@ -62,12 +63,6 @@ architecture rtl of APB_xoodoo is
     signal outgoing_data : STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
     signal write_ack, read_ack : STD_LOGIC;
 
-    -- Lane array type
-    constant C_XOODOO_NUMOF_PLANES : integer := 3;
-    constant C_XOODOO_NUMOF_SHEETS : integer := 4;
-    constant C_XOODOO_NUMOF_LANES : integer := C_XOODOO_NUMOF_PLANES * C_XOODOO_NUMOF_SHEETS;
-    type T_lane_array is array (C_XOODOO_NUMOF_LANES-1 downto 0) of STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
-
     -- Define xoodoo registers
     signal CONTROL_R : STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
     signal LANE_IN_V : T_lane_array;
@@ -81,7 +76,7 @@ architecture rtl of APB_xoodoo is
             clock : IN STD_LOGIC;
             reset : IN STD_LOGIC;
             number_of_rounds : IN STD_LOGIC_VECTOR(3 downto 0);
-            load : IN STD_LOGIC;
+            data_valid : IN STD_LOGIC;
             -- Todo: State in
     
             ready : OUT STD_LOGIC
@@ -139,7 +134,7 @@ begin
             clock => PCLK_i,
             reset => PRESETn_i,
             number_of_rounds => CONTROL_R(3 downto 0),
-            load => CONTROL_R(4),
+            data_valid => CONTROL_R(4),
             ready => STATUS_R(0)
         );
     

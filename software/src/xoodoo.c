@@ -233,9 +233,19 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
     // Copy state to hardware
     xoodoo_state_2_lane_array(state, ((xoodoo_lane_array *)XOODOO_HW_LANE_ARRAY_OUT)); // Fixme: out of bounds if size > 12 lanes
 
-    // Todo: offload permutation to HW
+    // Set number of rounds
+    XOODOO_HW_CONTROL_REG &= ~XOODOO_HW_CONTROL_NOR_MASK;                           // Clear previous value
+    XOODOO_HW_CONTROL_REG |= (XOODOO_HW_CONTROL_NOR_MASK & (number_of_rounds - 1)); // Set new value
+
+    // Set data valid
+    XOODOO_HW_CONTROL_REG |= XOODOO_HW_CONTROL_DATA_VALID;
+
+    // Todo: poll if hw is done
 
     // Get state from hardware
     xoodoo_lane_array_2_state(state, ((xoodoo_lane_array *)XOODOO_HW_LANE_ARRAY_IN)); // Fixme: out of bounds if size > 12 lanes
+
+    // Clear data valid
+    XOODOO_HW_CONTROL_REG &= ~XOODOO_HW_CONTROL_DATA_VALID;
 }
 #endif

@@ -13,14 +13,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="11.049162 us"></ZoomEndTime>
-      <Cursor1Time time="1.714525 us"></Cursor1Time>
+      <ZoomEndTime time="51.000001 us"></ZoomEndTime>
+      <Cursor1Time time="51.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="173"></NameColumnWidth>
-      <ValueColumnWidth column_width="78"></ValueColumnWidth>
+      <NameColumnWidth column_width="256"></NameColumnWidth>
+      <ValueColumnWidth column_width="124"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="5" />
+   <WVObjectSize size="6" />
    <wvobject fp_name="/soc_tb/resetn_i" type="logic">
       <obj_property name="ElementShortName">resetn_i</obj_property>
       <obj_property name="ObjectShortName">resetn_i</obj_property>
@@ -161,9 +161,50 @@
          <obj_property name="ElementShortName">LANE_IN_V[11:0][31:0]</obj_property>
          <obj_property name="ObjectShortName">LANE_IN_V[11:0][31:0]</obj_property>
       </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/CONTROL_R" type="array">
+         <obj_property name="ElementShortName">CONTROL_R[31:0]</obj_property>
+         <obj_property name="ObjectShortName">CONTROL_R[31:0]</obj_property>
+      </wvobject>
       <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/LANE_OUT_V" type="array">
          <obj_property name="ElementShortName">LANE_OUT_V[11:0][31:0]</obj_property>
          <obj_property name="ObjectShortName">LANE_OUT_V[11:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/STATUS_R" type="array">
+         <obj_property name="ElementShortName">STATUS_R[31:0]</obj_property>
+         <obj_property name="ObjectShortName">STATUS_R[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group71" type="group">
+      <obj_property name="label">Xoodoo_permute</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/clock" type="logic">
+         <obj_property name="ElementShortName">clock</obj_property>
+         <obj_property name="ObjectShortName">clock</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/reset" type="logic">
+         <obj_property name="ElementShortName">reset</obj_property>
+         <obj_property name="ObjectShortName">reset</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/number_of_rounds" type="array">
+         <obj_property name="ElementShortName">number_of_rounds[3:0]</obj_property>
+         <obj_property name="ObjectShortName">number_of_rounds[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/data_valid" type="logic">
+         <obj_property name="ElementShortName">data_valid</obj_property>
+         <obj_property name="ObjectShortName">data_valid</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/ready" type="logic">
+         <obj_property name="ElementShortName">ready</obj_property>
+         <obj_property name="ObjectShortName">ready</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/fsm_state" type="other">
+         <obj_property name="ElementShortName">fsm_state</obj_property>
+         <obj_property name="ObjectShortName">fsm_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/xoodoo_permutation_inst00/round_ctr" type="array">
+         <obj_property name="ElementShortName">round_ctr[3:0]</obj_property>
+         <obj_property name="ObjectShortName">round_ctr[3:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>
