@@ -30,7 +30,7 @@ void state_to_byte_vector(xoodyak_state *state, xoodyak_byte_vector *byte_vector
         {
             for (int y = 0; y < XOODYAK_NUMOF_PLANES; y++)
             {
-                // source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
+                // Source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
                 (*byte_vector)[z + XOODYAK_LANESIZE * x + XOODYAK_LANESIZE * XOODYAK_NUMOF_SHEETS * y] = (*state)[y][x][z];
             }
         }
@@ -51,7 +51,7 @@ void byte_vector_to_state(xoodyak_state *state, xoodyak_byte_vector *byte_vector
         {
             for (int y = 0; y < XOODYAK_NUMOF_PLANES; y++)
             {
-                // source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
+                // Source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
                 (*state)[y][x][z] = (*byte_vector)[z + XOODYAK_LANESIZE * x + XOODYAK_LANESIZE * XOODYAK_NUMOF_SHEETS * y];
             }
         }
@@ -72,8 +72,8 @@ void byte_vector_to_state(xoodyak_state *state, xoodyak_byte_vector *byte_vector
  */
 int cyclist_down(struct cyclist *c, unsigned char *Xi, unsigned int Xi_len, short unsigned int cd)
 {
-    // source: https://eprint.iacr.org/2018/767.pdf - Algorithm 5
-    // source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/403_cyclist/#down
+    // Source: https://eprint.iacr.org/2018/767.pdf - Algorithm 5
+    // Source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/403_cyclist/#down
 
     // Return error if length of Xi is to big
     if (Xi_len > XOODYAK_STATESIZE - 2)
@@ -99,7 +99,7 @@ int cyclist_down(struct cyclist *c, unsigned char *Xi, unsigned int Xi_len, shor
     state_to_byte_vector(&(c->state), &state_vector);
 
     // XOR new vector with state vector
-    // todo: Create a better implementation to skip byte vector to state conversion later
+    // Todo: Create a better implementation to skip byte vector to state conversion later
     for (int i = 0; i < XOODYAK_STATESIZE; i++)
     {
         state_vector[i] ^= new_vector[i];
@@ -127,10 +127,10 @@ int cyclist_down(struct cyclist *c, unsigned char *Xi, unsigned int Xi_len, shor
  */
 int cyclist_up(struct cyclist *c, unsigned char *Yi, unsigned int Yi_len, unsigned char Cu)
 {
-    // source: https://eprint.iacr.org/2018/767.pdf - Algorithm 5
-    // note: Mode is always hash in this implementation
-    // todo: Add doxygen documentation
-    // todo: Cu is never used, is this correct?
+    // Source: https://eprint.iacr.org/2018/767.pdf - Algorithm 5
+    // Note: Mode is always hash in this implementation
+    // Todo: Add doxygen documentation
+    // Todo: Cu is never used, is this correct?
 
     // Return error if length of Yi is to big
     if (Yi_len > XOODYAK_STATESIZE)
@@ -142,7 +142,7 @@ int cyclist_up(struct cyclist *c, unsigned char *Yi, unsigned int Yi_len, unsign
     xoodoo_permute(&(c->state), XOODYAK_XOODOO_ROUND_AMOUNT);
 
     // Fill Yi with correct bytes
-    // todo: Create a better implementation to skip intermediate state vector creation
+    // Todo: Create a better implementation to skip intermediate state vector creation
     xoodyak_byte_vector state_vector;
     state_to_byte_vector(&(c->state), &state_vector);
     for (int i = 0; i < Yi_len; i++)
@@ -170,8 +170,8 @@ int cyclist_up(struct cyclist *c, unsigned char *Yi, unsigned int Yi_len, unsign
  */
 int absorb_any(struct cyclist *c, unsigned char *X, unsigned int X_len, unsigned int r, unsigned int cd)
 {
-    // source: https://eprint.iacr.org/2018/767.pdf#page=20 - Algorithm 5
-    // source: https://github.com/XKCP/XKCP/blob/6a5815f7d606135abef8899a4d3861123fc184c9/lib/high/Xoodyak/Cyclist.inc#L100
+    // Source: https://eprint.iacr.org/2018/767.pdf#page=20 - Algorithm 5
+    // Source: https://github.com/XKCP/XKCP/blob/6a5815f7d606135abef8899a4d3861123fc184c9/lib/high/Xoodyak/Cyclist.inc#L100
 
     int bytes_remaining = X_len; // Amount of bytes that have yet to be absorbed
     unsigned char Yi;            // Output string of UP which is discarded
@@ -224,9 +224,9 @@ int absorb_any(struct cyclist *c, unsigned char *X, unsigned int X_len, unsigned
  */
 int squeeze_any(struct cyclist *c, unsigned char *Y, unsigned int Y_len, unsigned int r, unsigned int cu)
 {
-    // todo: Implement squeeze any
-    // source: https://eprint.iacr.org/2018/767.pdf#page=20 - Algorithm 5
-    // source: https://github.com/XKCP/XKCP/blob/6a5815f7d606135abef8899a4d3861123fc184c9/lib/high/Xoodyak/Cyclist.inc#L150
+    // Todo: Implement squeeze any
+    // Source: https://eprint.iacr.org/2018/767.pdf#page=20 - Algorithm 5
+    // Source: https://github.com/XKCP/XKCP/blob/6a5815f7d606135abef8899a4d3861123fc184c9/lib/high/Xoodyak/Cyclist.inc#L150
 
     unsigned int bytes_remaining = Y_len; // Amount of bytes that have yet to be squeezed
     unsigned char Xi;                     // Input string of DOWN which shouldn't be used since Xi_len is 0

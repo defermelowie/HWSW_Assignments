@@ -13,156 +13,157 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="37.341021 us"></ZoomEndTime>
-      <Cursor1Time time="13.160000 us"></Cursor1Time>
+      <ZoomEndTime time="11.049162 us"></ZoomEndTime>
+      <Cursor1Time time="1.714525 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="185"></NameColumnWidth>
-      <ValueColumnWidth column_width="128"></ValueColumnWidth>
+      <NameColumnWidth column_width="173"></NameColumnWidth>
+      <ValueColumnWidth column_width="78"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="5" />
-   <wvobject type="logic" fp_name="/soc_tb/resetn_i">
+   <wvobject fp_name="/soc_tb/resetn_i" type="logic">
       <obj_property name="ElementShortName">resetn_i</obj_property>
       <obj_property name="ObjectShortName">resetn_i</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/soc_tb/clock_i">
+   <wvobject fp_name="/soc_tb/clock_i" type="logic">
       <obj_property name="ElementShortName">clock_i</obj_property>
       <obj_property name="ObjectShortName">clock_i</obj_property>
    </wvobject>
-   <wvobject type="group" fp_name="group33">
+   <wvobject fp_name="group33" type="group">
       <obj_property name="label">Mem</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="array" fp_name="/soc_tb/PADDR_mem_i">
+      <wvobject fp_name="/soc_tb/PADDR_mem_i" type="array">
          <obj_property name="ElementShortName">PADDR_mem_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">PADDR_mem_i[31:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PPROT_mem_i">
+      <wvobject fp_name="/soc_tb/PPROT_mem_i" type="array">
          <obj_property name="ElementShortName">PPROT_mem_i[2:0]</obj_property>
          <obj_property name="ObjectShortName">PPROT_mem_i[2:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PSELx_mem_i">
+      <wvobject fp_name="/soc_tb/PSELx_mem_i" type="logic">
          <obj_property name="ElementShortName">PSELx_mem_i</obj_property>
          <obj_property name="ObjectShortName">PSELx_mem_i</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PENABLE_mem_i">
+      <wvobject fp_name="/soc_tb/PENABLE_mem_i" type="logic">
          <obj_property name="ElementShortName">PENABLE_mem_i</obj_property>
          <obj_property name="ObjectShortName">PENABLE_mem_i</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PWRITE_mem_i">
+      <wvobject fp_name="/soc_tb/PWRITE_mem_i" type="logic">
          <obj_property name="ElementShortName">PWRITE_mem_i</obj_property>
          <obj_property name="ObjectShortName">PWRITE_mem_i</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PWDATA_mem_i">
+      <wvobject fp_name="/soc_tb/PWDATA_mem_i" type="array">
          <obj_property name="ElementShortName">PWDATA_mem_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">PWDATA_mem_i[31:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PSTRB_mem_i">
+      <wvobject fp_name="/soc_tb/PSTRB_mem_i" type="array">
          <obj_property name="ElementShortName">PSTRB_mem_i[3:0]</obj_property>
          <obj_property name="ObjectShortName">PSTRB_mem_i[3:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PREADY_mem_i">
+      <wvobject fp_name="/soc_tb/PREADY_mem_i" type="logic">
          <obj_property name="ElementShortName">PREADY_mem_i</obj_property>
          <obj_property name="ObjectShortName">PREADY_mem_i</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PRDATA_mem_i">
+      <wvobject fp_name="/soc_tb/PRDATA_mem_i" type="array">
          <obj_property name="ElementShortName">PRDATA_mem_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">PRDATA_mem_i[31:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PSLVERR_mem_i">
+      <wvobject fp_name="/soc_tb/PSLVERR_mem_i" type="logic">
          <obj_property name="ElementShortName">PSLVERR_mem_i</obj_property>
          <obj_property name="ObjectShortName">PSLVERR_mem_i</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group34">
+   <wvobject fp_name="group34" type="group">
       <obj_property name="label">Print</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/soc_tb/PADDR_print_i">
+      <wvobject fp_name="/soc_tb/PADDR_print_i" type="array">
          <obj_property name="ElementShortName">PADDR_print_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">PADDR_print_i[31:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PPROT_print_i">
+      <wvobject fp_name="/soc_tb/PPROT_print_i" type="array">
          <obj_property name="ElementShortName">PPROT_print_i[2:0]</obj_property>
          <obj_property name="ObjectShortName">PPROT_print_i[2:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PSELx_print_i">
+      <wvobject fp_name="/soc_tb/PSELx_print_i" type="logic">
          <obj_property name="ElementShortName">PSELx_print_i</obj_property>
          <obj_property name="ObjectShortName">PSELx_print_i</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PENABLE_print_i">
+      <wvobject fp_name="/soc_tb/PENABLE_print_i" type="logic">
          <obj_property name="ElementShortName">PENABLE_print_i</obj_property>
          <obj_property name="ObjectShortName">PENABLE_print_i</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PWRITE_print_i">
+      <wvobject fp_name="/soc_tb/PWRITE_print_i" type="logic">
          <obj_property name="ElementShortName">PWRITE_print_i</obj_property>
          <obj_property name="ObjectShortName">PWRITE_print_i</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PWDATA_print_i">
+      <wvobject fp_name="/soc_tb/PWDATA_print_i" type="array">
          <obj_property name="ElementShortName">PWDATA_print_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">PWDATA_print_i[31:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PSTRB_print_i">
+      <wvobject fp_name="/soc_tb/PSTRB_print_i" type="array">
          <obj_property name="ElementShortName">PSTRB_print_i[3:0]</obj_property>
          <obj_property name="ObjectShortName">PSTRB_print_i[3:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PREADY_print_i">
+      <wvobject fp_name="/soc_tb/PREADY_print_i" type="logic">
          <obj_property name="ElementShortName">PREADY_print_i</obj_property>
          <obj_property name="ObjectShortName">PREADY_print_i</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/PRDATA_print_i">
+      <wvobject fp_name="/soc_tb/PRDATA_print_i" type="array">
          <obj_property name="ElementShortName">PRDATA_print_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">PRDATA_print_i[31:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/PSLVERR_print_i">
+      <wvobject fp_name="/soc_tb/PSLVERR_print_i" type="logic">
          <obj_property name="ElementShortName">PSLVERR_print_i</obj_property>
          <obj_property name="ObjectShortName">PSLVERR_print_i</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group35">
-      <obj_property name="label">Sine</obj_property>
+   <wvobject fp_name="group48" type="group">
+      <obj_property name="label">Xoodoo</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PADDR">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PADDR" type="array">
          <obj_property name="ElementShortName">PADDR[31:0]</obj_property>
          <obj_property name="ObjectShortName">PADDR[31:0]</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PPROT">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PPROT" type="array">
          <obj_property name="ElementShortName">PPROT[2:0]</obj_property>
          <obj_property name="ObjectShortName">PPROT[2:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PSELx">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PSELx" type="logic">
          <obj_property name="ElementShortName">PSELx</obj_property>
          <obj_property name="ObjectShortName">PSELx</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PENABLE">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PENABLE" type="logic">
          <obj_property name="ElementShortName">PENABLE</obj_property>
          <obj_property name="ObjectShortName">PENABLE</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PWRITE">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PWRITE" type="logic">
          <obj_property name="ElementShortName">PWRITE</obj_property>
          <obj_property name="ObjectShortName">PWRITE</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PWDATA">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PWDATA" type="array">
          <obj_property name="ElementShortName">PWDATA[31:0]</obj_property>
          <obj_property name="ObjectShortName">PWDATA[31:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PSTRB">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PSTRB" type="array">
          <obj_property name="ElementShortName">PSTRB[3:0]</obj_property>
          <obj_property name="ObjectShortName">PSTRB[3:0]</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PREADY">
-         <obj_property name="ElementShortName">PREADY</obj_property>
-         <obj_property name="ObjectShortName">PREADY</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PRDATA">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PRDATA" type="array">
          <obj_property name="ElementShortName">PRDATA[31:0]</obj_property>
          <obj_property name="ObjectShortName">PRDATA[31:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
       </wvobject>
-      <wvobject type="logic" fp_name="/soc_tb/soc_inst00/APB_sin_inst00/PSLVERR">
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/PSLVERR" type="logic">
          <obj_property name="ElementShortName">PSLVERR</obj_property>
          <obj_property name="ObjectShortName">PSLVERR</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/LANE_IN_V" type="array">
+         <obj_property name="ElementShortName">LANE_IN_V[11:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">LANE_IN_V[11:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/soc_tb/soc_inst00/APB_xoodoo_inst00/LANE_OUT_V" type="array">
+         <obj_property name="ElementShortName">LANE_OUT_V[11:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">LANE_OUT_V[11:0][31:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

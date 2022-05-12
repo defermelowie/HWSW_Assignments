@@ -138,23 +138,23 @@ begin
         PSLVERR => PSLVERR_COMP_2_i
     );
     
-    -- APB_sin_inst00: component APB_sin generic map(
-    --     G_BASE_ADDRESS => C_BASE_ADDRESS_3,
-    --     G_HIGH_ADDRESS => C_HIGH_ADDRESS_3) 
-    -- port map(
-    --     PCLK => PCLK_i,
-    --      PRESETn => PRESETn_i,
-    --      PADDR => PADDR_COMP_3_i,
-    --      PPROT => PPROT_COMP_3_i,
-    --      PSELx => PSELx_COMP_3_i,
-    --      PENABLE => PENABLE_COMP_3_i,
-    --      PWRITE => PWRITE_COMP_3_i,
-    --      PWDATA => PWDATA_COMP_3_i,
-    --      PSTRB => PSTRB_COMP_3_i,
-    --     PREADY => PREADY_COMP_3_i,
-    --     PRDATA => PRDATA_COMP_3_i,
-    --     PSLVERR => PSLVERR_COMP_3_i
-    -- );
+    APB_xoodoo_inst00: component APB_xoodoo generic map(
+        G_BASE_ADDRESS => C_BASE_ADDRESS_3,
+        G_HIGH_ADDRESS => C_HIGH_ADDRESS_3) 
+    port map(
+        PCLK => PCLK_i,
+        PRESETn => PRESETn_i,
+        PADDR => PADDR_COMP_3_i,
+        PPROT => PPROT_COMP_3_i,
+        PSELx => PSELx_COMP_3_i,
+        PENABLE => PENABLE_COMP_3_i,
+        PWRITE => PWRITE_COMP_3_i,
+        PWDATA => PWDATA_COMP_3_i,
+        PSTRB => PSTRB_COMP_3_i,
+        PREADY => PREADY_COMP_3_i,
+        PRDATA => PRDATA_COMP_3_i,
+        PSLVERR => PSLVERR_COMP_3_i
+    );
 
     -------------------------------------------------------------------------------
     -- APB bus

@@ -8,13 +8,9 @@
 // On: 21 April 2022
 //-------------------------------------------------------------
 
-#define XOODOO_HW
-
-#include <stdint.h>
 #include "xoodoo.h"
 
 #ifdef XOODOO_HW
-#include "xoodoo_driver.h"
 #include "print.h" // note: For debugging
 #endif
 
@@ -22,16 +18,17 @@
 #include <stdio.h>
 #endif
 
-/* Intern */
+/* Intern */ // Most Intern functions are not used in case of hardware offload
 
-#ifndef XOODOO_HW // Intern functions are not needed in case of hardware offload
-
-// Define alternative types to hold state data
+#ifndef XOODOO_HW
+// Define alternative byte vector type to hold state data
 typedef unsigned char xoodoo_byte_vector[XOODOO_NUMOF_PLANES * XOODOO_NUMOF_SHEETS * XOODOO_LANESIZE];
-typedef uint32_t xoodoo_lane_array[XOODOO_NUMOF_PLANES][XOODOO_NUMOF_SHEETS];
+#endif
 
+#ifndef XOODOO_HW
 // Round constants to constant array
 const unsigned int round_constants[] = XOODOO_ROUND_CONSTANTS;
+#endif
 
 /**
  * @brief Conversion of state data from 3d state to lane array
@@ -45,7 +42,7 @@ void xoodoo_state_2_lane_array(xoodoo_state *state, xoodoo_lane_array *vector)
     {
         for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         {
-            // source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
+            // Source: https://kuleuven-diepenbeek.github.io/hwswcodesign-course/400_xoodyak/401_xoodoo/#xoodoo-state
             unsigned int lane = (*state)[y][x][0] | ((*state)[y][x][1] << 8) | ((*state)[y][x][2] << 16) | ((*state)[y][x][3] << 24);
             (*vector)[y][x] = lane;
         }
@@ -72,6 +69,7 @@ void xoodoo_lane_array_2_state(xoodoo_state *state, xoodoo_lane_array *vector)
     }
 }
 
+#ifndef XOODOO_HW
 /**
  * @brief Do a cyclic shift of 32 bit words
  *
@@ -83,7 +81,9 @@ uint32_t cyclic_shift_left(uint32_t i, int n)
 {
     return (i << n % 32) | (i >> (32 - n));
 }
+#endif
 
+#ifndef XOODOO_HW
 /**
  * @brief Copy lane array form src to dst
  *
@@ -100,6 +100,7 @@ void copy_lane_array(xoodoo_lane_array *src, xoodoo_lane_array *dst)
         }
     }
 }
+#endif
 
 #ifdef __linux__
 void print_state(xoodoo_state *state)
@@ -135,6 +136,7 @@ void print_lane_array(xoodoo_lane_array *lane_array)
 }
 #endif
 
+#ifndef XOODOO_HW
 /**
  * @brief Do a xoodoo permutation round
  *
@@ -227,7 +229,13 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
 #else
 void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
 {
-    // todo: offload permutation to HW
-    print_str("xoodoo_permute was called");
+
+    // Copy state to hardware
+    xoodoo_state_2_lane_array(state, ((xoodoo_lane_array *)XOODOO_HW_LANE_ARRAY_OUT)); // Fixme: out of bounds if size > 12 lanes
+
+    // Todo: offload permutation to HW
+
+    // Get state from hardware
+    xoodoo_lane_array_2_state(state, ((xoodoo_lane_array *)XOODOO_HW_LANE_ARRAY_IN)); // Fixme: out of bounds if size > 12 lanes
 }
 #endif

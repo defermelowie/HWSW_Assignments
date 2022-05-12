@@ -12,96 +12,14 @@
 			"print.h": "c",
 			"counter.h": "c",
 			"stdint.h": "c",
-			"xoodoo_driver.h": "c"
+			"xoodoo_driver.h": "c",
+			"xoodoo.h": "c",
+			"xoodyak.h": "c"
 		},
 		"todo-tree.filtering.excludeGlobs": [
 			"**/Makefile",
 			"**/vivado-proj/**"
 		],
-		"todo-tree.general.tags": [
-			"BUG",
-			"bug",
-			"FIXME",
-			"fixme",
-			"TODO",
-			"todo",
-			"SOURCE",
-			"source",
-			"SRC",
-			"src",
-			"DOCS",
-			"docs",
-			"USAGE",
-			"usage",
-			"NOTE",
-			"note",
-			"[ ]",
-			"[x]"
-		],
-		"todo-tree.general.tagGroups": {
-			"BUG" : [
-				"BUG",
-				"bug"
-			],
-			"FIXME": [
-				"FIXME",
-				"fixme"
-			],
-			"TODO": [
-				"TODO",
-				"todo"
-			],
-			"SOURCE": [
-				"SOURCE",
-				"source",
-				"SRC",
-				"src",
-				"DOCS",
-				"docs",
-				"USAGE",
-				"usage"
-			],
-			"NOTE": [
-				"NOTE",
-				"note"
-			]
-		},
-		"todo-tree.highlights.customHighlight": {
-			"BUG": {
-				"icon": "bug",
-				"background": "#BF616A",
-				"foreground": "#4C566A",
-				"iconColour": "#BF616A",
-				"type": "text",
-				"gutterIcon": true
-			},
-			"FIXME": {
-				"icon": "stop",
-				"background": "#D08770",
-				"foreground": "#4C566A",
-				"iconColour": "#D08770",
-				"type": "text",
-				"gutterIcon": true
-			},
-			"TODO": {
-				"icon": "alert",
-				"background": "#EBCB8B",
-				"foreground": "#4C566A",
-				"iconColour": "#EBCB8B"
-			},
-			"SOURCE": {
-				"icon": "$(references)",
-				"background": "#A3BE8C",
-				"foreground": "#4C566A",
-				"iconColour": "terminal.ansiBrightGreen"
-			},
-			"NOTE": {
-				"icon": "info",
-				"background": "#81A1C1",
-				"foreground": "#4C566A",
-				"iconColour": "#81A1C1"
-			}
-		},
 		"cSpell.words": [
 			"NUMOF",
 			"Rsqueeze",

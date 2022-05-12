@@ -26,26 +26,41 @@ void main(void)
 	counter_clear();
 
 	// Print msg
-	print_str("-message:");
-	array_print_hex(msg, MSG_LEN);
+	// print_str("-message:");
+	// array_print_hex(msg, MSG_LEN);
 
 	// Start counter
 	counter_start();
 
 	// Calculate hash
-	cyclist_initialise_hash(&cy);
-	cyclist_absorb(&cy, msg, MSG_LEN);
-	cyclist_squeeze(&cy, digest, DIGEST_LEN, 0x40);
+	// cyclist_initialise_hash(&cy);
+	//cyclist_absorb(&cy, msg, MSG_LEN);
+	//cyclist_squeeze(&cy, digest, DIGEST_LEN, 0x40);
+
+	// Xoodoo debugging
+	xoodyak_state s;
+	xoodoo_init_empty_state(&s);
+    for (int z = 0; z < XOODOO_LANESIZE; z++)
+    {
+        for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
+        {
+            for (int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
+            {
+                s[y][x][z] = x + 0x10 * y; // Note: change xoodoo state to non zero
+            }
+        }
+    }
+	xoodoo_permute(&s, 12);
 
 	// Stop counter
 	counter_stop();
 	int ctr = counter_get_value();
 
 	// Print digest
-	print_str("-digest:");
-	array_print_hex(digest, DIGEST_LEN);
+	// print_str("-digest:");
+	// array_print_hex(digest, DIGEST_LEN);
 
 	// Print counter
-	print_str("-counter:");
-	print_hex(ctr, 8);
+	// print_str("-counter:");
+	// print_hex(ctr, 8);
 }
