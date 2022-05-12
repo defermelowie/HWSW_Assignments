@@ -13,8 +13,10 @@
 
 #include <stdint.h>
 
+#ifndef __linux__
 // Use hardware implementation
 #define XOODOO_HW // note: comment out in order to fall back to software
+#endif
 
 // source: https://eprint.iacr.org/2018/767.pdf#6
 #define XOODOO_NUMOF_SHEETS 4 // The maximum X coordinate is 4

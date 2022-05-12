@@ -17,10 +17,10 @@ library work;
 
 package PKG_xoodoo is
 
-     -- Lane array type
-     constant C_XOODOO_NUMOF_PLANES : integer := 3;
-     constant C_XOODOO_NUMOF_SHEETS : integer := 4;
-     constant C_XOODOO_NUMOF_LANES : integer := C_XOODOO_NUMOF_PLANES * C_XOODOO_NUMOF_SHEETS;
-     type T_lane_array is array (C_XOODOO_NUMOF_LANES-1 downto 0) of STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
+    -- Lane array type
+    constant C_XOODOO_NUMOF_PLANES : integer := 3;
+    constant C_XOODOO_NUMOF_SHEETS : integer := 4;
+    constant C_XOODOO_NUMOF_LANES : integer := C_XOODOO_NUMOF_PLANES * C_XOODOO_NUMOF_SHEETS;
+    type T_lane_array is array (C_XOODOO_NUMOF_LANES-1 downto 0) of STD_LOGIC_VECTOR(C_DATA_WIDTH-1 downto 0);
 
 end package;
