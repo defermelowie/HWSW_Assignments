@@ -117,11 +117,7 @@ begin
         x"00000000" when others;
     
     -- Definition of state out
-    with fsm_state select state_out_i <=
-        state_out_i when R,
-        state_out_i when L,
-        state_out_i when P,
-        round_reg when F;
+    state_out_i <= round_reg;
 
     -------------------------------------------------------------------------------
     -- FINITE STATE MACHINE
