@@ -155,8 +155,10 @@ void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
     xoodoo_lane_array A;
     xoodoo_state_2_lane_array(state, &A);
 
+#ifdef __linux__
     printf("Round in:\n");
     print_lane_array(&A);
+#endif
 
     // Theta
     // printf("[XOODOO] Theta\n");
@@ -169,10 +171,10 @@ void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         for (int y = 0; y < XOODOO_NUMOF_PLANES; y++)
             A[y][x] ^= E[x];
-
+#ifdef __linux__
     printf("Theta out:\n");
     print_lane_array(&A);
-
+#endif
     // Rho west
     // printf("[XOODOO] Rho west\n");
     xoodoo_lane_array T; // Temporary lane array
@@ -182,27 +184,27 @@ void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
         T[1][x] = A[1][(x - 1) % XOODOO_NUMOF_SHEETS]; // Plane 1
         T[2][x] = cyclic_shift_left(A[2][x], 11);      // Plane 2
     }
-
+#ifdef __linux__
     printf("Rho west out:\n");
     print_lane_array(&T);
-
+#endif
     // Iota
     // printf("[XOODOO] Iota\n");
     T[0][0] ^= round_constant;
-
+#ifdef __linux__
     printf("Iota out:\n");
     print_lane_array(&T);
-
+#endif
     // Chi
     // printf("[XOODOO] Chi\n");
     xoodoo_lane_array B;
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
         for (unsigned int y = 0; y < XOODOO_NUMOF_PLANES; y++)
             B[y][x] = T[y][x] ^ (~T[(y + 1) % XOODOO_NUMOF_PLANES][x] & T[(y + 2) % XOODOO_NUMOF_PLANES][x]);
-    
+#ifdef __linux__
     printf("Chi out:\n");
     print_lane_array(&B);
-
+#endif
     // Pho east
     // printf("[XOODOO] Rho east\n");
     for (unsigned int x = 0; x < XOODOO_NUMOF_SHEETS; x++)
@@ -211,10 +213,10 @@ void xoodoo_round(xoodoo_state *state, uint32_t round_constant)
         A[1][x] = cyclic_shift_left(B[1][x], 1);                             // Plane 1
         A[2][x] = cyclic_shift_left(B[2][(x - 2) % XOODOO_NUMOF_SHEETS], 8); // Plane 2
     }
-
+#ifdef __linux__
     printf("Rho east out:\n");
     print_lane_array(&A);
-
+#endif
     // Convert back to state
     xoodoo_lane_array_2_state(state, &A);
 }
@@ -241,7 +243,9 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
 {
     for (int round = 0; round < number_of_rounds; round++)
     {
+#ifdef __linux__
         printf("Round %d:\n", round);
+#endif
         xoodoo_round(state, round_constants[round]);
     }
 }
@@ -260,7 +264,8 @@ void xoodoo_permute(xoodoo_state *state, unsigned int number_of_rounds)
     XOODOO_HW_CONTROL_REG |= XOODOO_HW_CONTROL_DATA_VALID;
 
     // Poll if hw is done
-    while ((XOODOO_HW_STATUS_REG & XOODOO_HW_STATUS_FIN) == 0);
+    while ((XOODOO_HW_STATUS_REG & XOODOO_HW_STATUS_FIN) == 0)
+        ;
 
     // Get state from hardware
     xoodoo_lane_array_2_state(state, ((xoodoo_lane_array *)XOODOO_HW_LANE_ARRAY_IN)); // Fixme: out of bounds if size > 12 lanes

@@ -14,7 +14,7 @@
 #include <stdint.h>
 
 // Use hardware implementation
-#define XOODOO_HW // note: comment out in order to use software implementation
+//#define XOODOO_HW // note: comment out in order to use software implementation
 
 // source: https://eprint.iacr.org/2018/767.pdf#6
 #define XOODOO_NUMOF_SHEETS 4 // The maximum X coordinate is 4
