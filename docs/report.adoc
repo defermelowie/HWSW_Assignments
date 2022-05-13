@@ -1,6 +1,14 @@
-= Xoodyak with hardware offload of xoodoo permutation
+= Hardware offload of Xoodoo permutation
 :author: Lowie Deferme
-:source-highlighter: pygments
+:source-highlighter: highlightjs
+
+== TL;DR
+
+The main goal was to 
+
+== Design goals
+
+The 
 
 == Software only
 
@@ -12,27 +20,88 @@ The source of this test can be found in https://github.com/defermelowie/HWSW_Exe
 
 ==== Counter
 
-Counter value was `0x0005C7BE` which is `378814`
+Counter value was `0x0005C7BE` which is `378814 (DEC)`
 
 ==== Synthesis report
+
+[lst-synth-sw]
+.Lut and register usage in the software only version
+----
++----------------------------+------+-------+------------+-----------+-------+
+|          Site Type         | Used | Fixed | Prohibited | Available | Util% |
++----------------------------+------+-------+------------+-----------+-------+
+| Slice LUTs*                | 1063 |     0 |          0 |     53200 |  2.00 |
+|   LUT as Logic             | 1015 |     0 |          0 |     53200 |  1.91 |
+|   LUT as Memory            |   48 |     0 |          0 |     17400 |  0.28 |
+|     LUT as Distributed RAM |   48 |     0 |            |           |       |
+|     LUT as Shift Register  |    0 |     0 |            |           |       |
+| Slice Registers            |  671 |     0 |          0 |    106400 |  0.63 |
+|   Register as Flip Flop    |  671 |     0 |          0 |    106400 |  0.63 |
+|   Register as Latch        |    0 |     0 |          0 |    106400 |  0.00 |
+| F7 Muxes                   |    0 |     0 |          0 |     26600 |  0.00 |
+| F8 Muxes                   |    0 |     0 |          0 |     13300 |  0.00 |
++----------------------------+------+-------+------------+-----------+-------+
+----
+
+[img-net-sw]
+.Amount of cells per component in the software only version
+image::.\resources\netlist_synth_f0d9abc7234f2edcdee0af1f371acc465f7b814b.PNG[Amount of cells per component, 400]
+
+=== Binary size
+
+The size of the final compiled ELF was `3028 bytes`
 
 == Hardware software codesign
 
 === Setup
 
+The source of this test can be found in https://github.com/defermelowie/HWSW_Exercises/tree/project[this github repo] at commit `46729aaab2dffb8f9bff75f1af03a47a37510201`.
+
 === Results
 
 ==== Counter
 
+Counter value was `0x0000E244` which is `57924 (DEC)`
+
 ==== Synthesis report
 
-== Summary
+[lst-synth-hw]
+.Lut and register usage in the codesign
+----
++----------------------------+------+-------+------------+-----------+-------+
+|          Site Type         | Used | Fixed | Prohibited | Available | Util% |
++----------------------------+------+-------+------------+-----------+-------+
+| Slice LUTs*                | 2214 |     0 |          0 |     53200 |  4.16 |
+|   LUT as Logic             | 2166 |     0 |          0 |     53200 |  4.07 |
+|   LUT as Memory            |   48 |     0 |          0 |     17400 |  0.28 |
+|     LUT as Distributed RAM |   48 |     0 |            |           |       |
+|     LUT as Shift Register  |    0 |     0 |            |           |       |
+| Slice Registers            | 1521 |     0 |          0 |    106400 |  1.43 |
+|   Register as Flip Flop    | 1521 |     0 |          0 |    106400 |  1.43 |
+|   Register as Latch        |    0 |     0 |          0 |    106400 |  0.00 |
+| F7 Muxes                   |   45 |     0 |          0 |     26600 |  0.17 |
+| F8 Muxes                   |    7 |     0 |          0 |     13300 |  0.05 |
++----------------------------+------+-------+------------+-----------+-------+
+----
 
-|===
-|| *Software* | *Hardware* 
-| Counter value | `0x0005C7BE` | ? 
-| Elf-size | ? | ? 
-| Registers | ? | ? 
-| LUTs | ? | ? 
-|===
+[img-net-sw]
+.Amount of cells per component in the codesign
+image::.\resources\netlist_synth_46729aaab2dffb8f9bff75f1af03a47a37510201.PNG[Amount of cells per component, 400]
 
+=== Binary size
+
+The size of the final compiled ELF was `2380 bytes`
+
+== Comparison
+
+The main goal, to make the Xoodyak hash calculation faster, was achieved in the hybrid design. It had a execution time reduction of 84.7% compared to the software only version. The size of the final binary with dedicated hardware was only 78.6% of the software only version. 
+
+[tbl-comp]
+.Comparison table between both versions
+|===
+|| *Software* | *Codesign* 
+| Counter value (clock cycles) | `378814` | `57924`
+| Elf-size (bytes) | `3028` | `2380`
+| Registers | `671` | `2215`
+| LUTs | `1063` | `1908`
+|===
