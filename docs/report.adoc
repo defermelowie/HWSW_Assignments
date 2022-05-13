@@ -1,30 +1,49 @@
-= Hardware offload of Xoodoo permutation
+= Hardware offload of Xoodoo permutation: A hardware/software codesign for Xoodyak on RISC-V
 :author: Lowie Deferme
-:source-highlighter: highlightjs
-
-== TL;DR
-
-The main goal was to 
+:listing-caption: Listing
+:source-highlighter: rouge
+:toc:
+:toclevels: 4
+:title-page:
 
 == Design goals
 
-The 
+The main design goal was to decrease the required amount of cpu cycles with at least 50% when calculating a hash using the Xoodyak algorithm. Calculating a hash should be as fast as possible since it is mainly used to validate data. This validation is often often required for security and not functioning, therefore it could be considered some sort of overhead.
 
 == Software only
 
 === Setup
 
-The source of this test can be found in https://github.com/defermelowie/HWSW_Exercises/tree/project[this github repo] at commit `f0d9abc7234f2edcdee0af1f371acc465f7b814b`.
+The characterization of the software only version was done in the following way. The message was `67` bytes long and a `32` byte long digest was calculated.
+
+[[sw-source]]
+[source, c]
+.Test body of software only version
+----
+// Start counter
+counter_start();
+
+// Calculate hash
+cyclist_initialise_hash(&cy);
+cyclist_absorb(&cy, msg, MSG_LEN);
+cyclist_squeeze(&cy, digest, DIGEST_LEN, 0x40);
+
+// Stop counter
+counter_stop();
+int ctr = counter_get_value();
+----
+
+The full source of this test can be found in https://github.com/defermelowie/HWSW_Exercises/tree/project[this github repo] at commit `f0d9abc7234f2edcdee0af1f371acc465f7b814b`.
 
 === Results
 
 ==== Counter
 
-Counter value was `0x0005C7BE` which is `378814 (DEC)`
+Counter value was `0x0005C7BE` which corresponds to 378814 cycles.
 
 ==== Synthesis report
 
-[lst-synth-sw]
+[[lst-synth-sw]]
 .Lut and register usage in the software only version
 ----
 +----------------------------+------+-------+------------+-----------+-------+
@@ -43,29 +62,44 @@ Counter value was `0x0005C7BE` which is `378814 (DEC)`
 +----------------------------+------+-------+------------+-----------+-------+
 ----
 
-[img-net-sw]
-.Amount of cells per component in the software only version
-image::.\resources\netlist_synth_f0d9abc7234f2edcdee0af1f371acc465f7b814b.PNG[Amount of cells per component, 400]
+==== Binary size
 
-=== Binary size
-
-The size of the final compiled ELF was `3028 bytes`
+The size of the final compiled ELF was `3028` bytes.
 
 == Hardware software codesign
 
 === Setup
 
-The source of this test can be found in https://github.com/defermelowie/HWSW_Exercises/tree/project[this github repo] at commit `46729aaab2dffb8f9bff75f1af03a47a37510201`.
+The main function of this test was identical as in <<sw-source, Listing 1>> and the same `32` byte long digest of a `67` byte long message was calculated.
+
+The Xoodoo permutation function was substituted by a hardware design. This design consisted out of a `xoodoo_permutation` component and `APB_xoodoo` component with the latter connecting to the APB bus and driving the former. `xoodoo_permutation` has a fsm with four states as represented in <<fig-fsm, Figure 1>>.
+
+. Ready: wait to start until `data_valid`.
+. Load: load input state and set `round_ctr`.
+. Permute: do permutations until `round_ctr` drops to zero.
+. Finished: hold output state until `data_valid` clears.
+
+The data path for this component is shown in <<fig-datapath, Figure 2>>.
+
+[[fig-fsm]]
+.Finite state machine of `xoodoo_permutation`
+image::.\resources\fsm-diagram.svg[Finite state machine of `xoodoo_permutation`, 500]
+
+[[fig-datapath]]
+.Data path of `xoodoo_permutation`
+image::.\resources\permutation-data-path.svg[Data path of `xoodoo_permutation`, 500]
+
+The full source code of this test can be found in https://github.com/defermelowie/HWSW_Exercises/tree/project[this github repo] at commit `46729aaab2dffb8f9bff75f1af03a47a37510201`.
 
 === Results
 
 ==== Counter
 
-Counter value was `0x0000E244` which is `57924 (DEC)`
+Counter value was `0x0000E244` which corresponds to 57924 cycles.
 
 ==== Synthesis report
 
-[lst-synth-hw]
+[[lst-synth-hw]]
 .Lut and register usage in the codesign
 ----
 +----------------------------+------+-------+------------+-----------+-------+
@@ -84,24 +118,28 @@ Counter value was `0x0000E244` which is `57924 (DEC)`
 +----------------------------+------+-------+------------+-----------+-------+
 ----
 
-[img-net-sw]
-.Amount of cells per component in the codesign
-image::.\resources\netlist_synth_46729aaab2dffb8f9bff75f1af03a47a37510201.PNG[Amount of cells per component, 400]
+==== Binary size
 
-=== Binary size
-
-The size of the final compiled ELF was `2380 bytes`
+The size of the final compiled ELF was `2380` bytes.
 
 == Comparison
 
-The main goal, to make the Xoodyak hash calculation faster, was achieved in the hybrid design. It had a execution time reduction of 84.7% compared to the software only version. The size of the final binary with dedicated hardware was only 78.6% of the software only version. 
+The main goal, to make the Xoodyak hash calculation faster, was achieved in the hybrid design. With `MSG_LEN=67` and `DIGEST_LEN=32`, it needed 15.3% of the execution time of the software only version. However, as demonstrated in <<fig-len-cpu, Figure 3>>, this difference increases for bigger messages.
 
-[tbl-comp]
+The size of the final binary with dedicated hardware was only 78.6% of the software only version's size. Obviously dedicated hardware requires more LUTs and registers.
+
+[[tbl-comp]]
 .Comparison table between both versions
 |===
-|| *Software* | *Codesign* 
-| Counter value (clock cycles) | `378814` | `57924`
-| Elf-size (bytes) | `3028` | `2380`
-| Registers | `671` | `2215`
-| LUTs | `1063` | `1908`
+|| *Software* | *Codesign* | Ratio
+| _Message length (bytes)_ | `67` | `67` | `100%`
+| _Digest length (bytes)_ | `32` | `32` | `100%`
+| Counter value (clock cycles) | `378814` | `57924` | `15.29%`
+| Elf-size (bytes) | `3028` | `2380` | `78.60%`
+| Registers | `671` | `2215` | `330.10%`
+| LUTs | `1063` | `1908` | `179.49%`
 |===
+
+[[fig-len-cpu]]
+.Required cpu cycles to calculate hash of different message lengths
+image::.\resources\measurements\msg-len-vs-cpu-cycles.png[Message length in function of cpu cycles, 500]

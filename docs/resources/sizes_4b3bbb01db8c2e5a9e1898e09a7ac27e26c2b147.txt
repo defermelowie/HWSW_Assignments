@@ -1,3 +1,0 @@
-/home/ldefe/.programs/riscv/bin/riscv32-unknown-elf-size target/firmware.elf
-   text	   data	    bss	    dec	    hex	filename
-   2380	      0	      0	   2380	    94c	target/firmware.elf
