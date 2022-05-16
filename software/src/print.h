@@ -9,7 +9,6 @@
 #define PRINT_H
 
 #include <stdint.h>
-#include <stdbool.h>
 
 // print.c
 void print_chr(char ch);

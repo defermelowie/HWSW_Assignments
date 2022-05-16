@@ -7,5 +7,25 @@
 			"path": "../boilerplate"
 		},
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"print.h": "c",
+			"counter.h": "c",
+			"stdint.h": "c",
+			"xoodoo_driver.h": "c",
+			"xoodoo.h": "c",
+			"xoodyak.h": "c",
+			"xlocale": "c"
+		},
+		"todo-tree.filtering.excludeGlobs": [
+			"**/Makefile",
+			"**/vivado-proj/**"
+		],
+		"cSpell.words": [
+			"NUMOF",
+			"Rsqueeze",
+			"xoodoo",
+			"xoodyak"
+		]
+	}
 }
